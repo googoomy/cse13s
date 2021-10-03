@@ -9,5 +9,21 @@ This program is a simulation of the game David Moffat's dice game, Pass the Pigs
 ###BUILD OF THE PROGRAM:
 This program needs the following: pig.c, names.h, Makefile, README.md, and DESIGN.pdf. 
 
+pig.c:
+This contains the implementation of the simulaiton for Pass the Pigs.
+
+names.h:
+This contains the array of player names to be used in this simulation.
+
+Makefile:
+The file that directs program compilation, building the program pig from pig.c.
+
+README.md:
+Describes program, how to use program and how to build program.
+
+DESIGN.pdf:
+Describes the design and design process of the program with enough detail that another programmer can recreate the implementation.
+
+
 ####HOW TO RUN THE PROGRAM:
-pig.c is a simulation of the Pass the Pigs game so users will have to input the number of players they want in the game (an integer between 2 and 10 inclusive). After that the user must select the random seed they would liek the game to be played under (a positive integer). After that the program will simulate a game of Pass the Pigs.
+pig.c is a simulation of the Pass the Pigs game so users will have to input the number of players they want in the game (an integer between 2 and 10 inclusive). After that the user must select the random seed they would like the game to be played under (a positive integer). If the user submits inputs that aren't allowed there will be automati values assigned. Number of players will default to 2 and the seed will default to 2021. After that the program will simulate a game of Pass the Pigs.
