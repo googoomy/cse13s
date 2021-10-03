@@ -39,33 +39,41 @@ int main(void){
 	int points[MAX_PLAYERS] = {0};
 	srandom(user_Seed);
 	int current_Player = 0;
+	int last_Player;
 	while(points[current_Player] < MAX_POINTS){
 		Position roll;
 		roll = pig[random()%7];
-		printf("\n%s rolls the pig...", names[current_Player]);
+		if(last_Player != current_Player){
+			printf("%s rolls the pig... ", names[current_Player]);
+		}
 		switch(roll){
 			case SIDE:
-				printf("pig lands on side");
+				printf("pig lands on side ");
 				current_Player += 1;
-				if(current_Player > num_Players){
+				if(current_Player > num_Players - 1){
 					current_Player = 0;
-				}		
+				}
+				printf("\n");		
 				break;
 			case RAZORBACK:
-				printf("pig lands on back");
+				printf("pig lands on back ");
 				points[current_Player] += 10;
+				last_Player = current_Player;
 				break;
 			case TROTTER:
-				printf("pig lands upright");
+				printf("pig lands upright ");
 				points[current_Player] += 10;
+				last_Player = current_Player;
 				break;
 			case SNOUTER:
-				printf("pig lands on snout");
+				printf("pig lands on snout ");
 				points[current_Player] += 15;
+				last_Player = current_Player;
 				break;
 			case JOWLER:
-				printf("pig lands on ear");
+				printf("pig lands on ear ");
 				points[current_Player] +=5;
+				last_Player = current_Player;
 				break;
 			default:
 				break;
