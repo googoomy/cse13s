@@ -46,6 +46,7 @@ int main(void){
 		if(last_Player != current_Player){
 			printf("%s rolls the pig...", names[current_Player]);
 		}
+		last_Player = current_Player;
 		switch(roll){
 			case SIDE:
 				printf(" pig lands on side");
@@ -58,22 +59,22 @@ int main(void){
 			case RAZORBACK:
 				printf(" pig lands on back");
 				points[current_Player] += 10;
-				last_Player = current_Player;
+				//last_Player = current_Player;
 				break;
 			case TROTTER:
 				printf(" pig lands upright");
 				points[current_Player] += 10;
-				last_Player = current_Player;
+				//last_Player = current_Player;
 				break;
 			case SNOUTER:
 				printf(" pig lands on snout");
 				points[current_Player] += 15;
-				last_Player = current_Player;
+				//last_Player = current_Player;
 				break;
 			case JOWLER:
 				printf(" pig lands on ear");
 				points[current_Player] +=5;
-				last_Player = current_Player;
+				//last_Player = current_Player;
 				break;
 			default:
 				break;
