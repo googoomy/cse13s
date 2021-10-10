@@ -6,17 +6,36 @@ all: mathlib-test
 
 e: e.o
 	$(CC) -o e e.o $(LFLAGS)
+
 newton: newton.o
 	$(CC) -o newton newton.o $(LFLAGS)
 
-mathlib-test: mathlib-test.o e.o newton.c
-	$(CC) $(CFLAGS) mathlib-test.o e.o newton.c -o mathlib-test
+madhava: madhava.o
+	$(CC) -o madhava madhava.o $(LFLAGS)
+
+euler: euler.o
+	$(CC) -o euler euler.o $(LFLAGS)
+
+bbp: bbp.o
+	$(CC) -o bbp bbp.o $(LFLAGS)
+
+mathlib-test: mathlib-test.o e.o newton.o madhava.o euler.o bbp.o
+	$(CC) $(CFLAGS) mathlib-test.o e.o newton.o madhava.o euler.o bbp.o -o mathlib-test
 
 e.o: e.c mathlib.h
 	$(CC) $(CFLAGS) -c e.c
 
 newton.o: newton.c mathlib.h
 	$(CC) $(CFLAGS) -c newton.c
+
+madhava.o: madhava.c mathlib.h
+	$(CC) $(CFLAGS) -c madhava.c
+
+euler.o: euler.c mathlib.h
+	$(CC) $(CFLAGS) -c euler.c
+
+bbp.o: bbp.c mathlib.h
+	$(CC) $(CFLAGS) -c bbp.c
 
 mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
@@ -25,4 +44,4 @@ format:
 	clang-format -i -style-file *.c *.h
 
 clean:
-	rm -f e_test *.o *.exe
+	rm -f *.o *.exe
