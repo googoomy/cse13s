@@ -10,12 +10,16 @@ double pi_euler(void) {
     double curr_val = 0;
     double final_val = 0;
     double k_val = 1;
-    while (absolute(prev_val - curr_val) > EPSILON) {
+    //while (absolute(prev_val - curr_val) > EPSILON) {
+    while (1) {
         prev_val = curr_val;
         curr_val = 1 / (k_val * k_val);
         final_val += curr_val;
         k_val += 1;
         num_terms += 1;
+        if (curr_val < EPSILON) {
+            break;
+        }
     }
     final_val *= 6;
     final_val = sqrt_newton(final_val);
