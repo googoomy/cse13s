@@ -14,6 +14,7 @@ int main(int argc, char **argv){
 	int h_flag = false;
 	int a_flag = false;
 	int e_flag = false;
+	int n_flag = false;
 
 	while((opt = getopt(argc, argv, OPTIONS)) != -1){
 		no_input = false;
@@ -27,10 +28,16 @@ int main(int argc, char **argv){
 			case 'e':
 				e_flag = true;
 				break;
+			case 'n':
+				n_flag = true;
+				break;
 		}
 	}
 
 	if (e_flag){
 		printf("testing e(): %16.15lf, num_terms: %d\n", e(), e_terms());
+	}
+	if (n_flag){
+		printf("testing sqrt_newton(4): %16.15f, sqrt_newton_iters: %d\n", sqrt_newton(4), sqrt_newton_iters());
 	}
 }
