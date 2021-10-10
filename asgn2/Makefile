@@ -19,8 +19,11 @@ euler: euler.o
 bbp: bbp.o
 	$(CC) -o bbp bbp.o $(LFLAGS)
 
-mathlib-test: mathlib-test.o e.o newton.o madhava.o euler.o bbp.o
-	$(CC) $(CFLAGS) mathlib-test.o e.o newton.o madhava.o euler.o bbp.o -o mathlib-test
+viete: viete.o
+	$(CC) -o viete viete.o $(LFLAGS)
+
+mathlib-test: mathlib-test.o e.o newton.o madhava.o euler.o bbp.o viete.o
+	$(CC) $(CFLAGS) mathlib-test.o e.o newton.o madhava.o euler.o bbp.o viete.o -o mathlib-test
 
 e.o: e.c mathlib.h
 	$(CC) $(CFLAGS) -c e.c
@@ -36,6 +39,9 @@ euler.o: euler.c mathlib.h
 
 bbp.o: bbp.c mathlib.h
 	$(CC) $(CFLAGS) -c bbp.c
+
+viete.o: viete.c mathlib.h
+	$(CC) $(CFLAGS) -c viete.c
 
 mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
