@@ -47,7 +47,7 @@ mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
 
 format:
-	clang-format -i -style=file *.c *.h
+	clang-format -i -style=file *.[ch]
 
 clean:
-	rm -f *.o *.exe
+	rm -f *.o *.exe mathlib-test
