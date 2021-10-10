@@ -23,7 +23,7 @@ viete: viete.o
 	$(CC) -o viete viete.o $(LFLAGS)
 
 mathlib-test: mathlib-test.o e.o newton.o madhava.o euler.o bbp.o viete.o
-	$(CC) $(CFLAGS) mathlib-test.o e.o newton.o madhava.o euler.o bbp.o viete.o -o mathlib-test
+	$(CC) $(CFLAGS) mathlib-test.o e.o newton.o madhava.o euler.o bbp.o viete.o -o mathlib-test $(LFLAGS)
 
 e.o: e.c mathlib.h
 	$(CC) $(CFLAGS) -c e.c
@@ -47,7 +47,7 @@ mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
 
 format:
-	clang-format -i -style-file *.c *.h
+	clang-format -i -style=file *.c *.h
 
 clean:
 	rm -f *.o *.exe
