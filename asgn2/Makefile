@@ -1,3 +1,4 @@
+#CITE: TA CHRISTIAN AND EUGENE
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wpedantic
 LFLAGS = -lm

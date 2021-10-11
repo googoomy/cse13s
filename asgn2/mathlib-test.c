@@ -9,7 +9,9 @@
 #define OPTIONS "haebmrvns"
 
 int main(int argc, char **argv) {
+    //CITE:flags from TA CHRISTIAN
     int opt = 0;
+    //flags to see which programs are intended to be ran by the user
     int no_input = true;
     int h_flag = false;
     int a_flag = false;
@@ -20,7 +22,7 @@ int main(int argc, char **argv) {
     int v_flag = false;
     int n_flag = false;
     int s_flag = false;
-
+    //CITE:while loop from DARRELL LONG
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input = false;
         switch (opt) {
@@ -44,6 +46,7 @@ int main(int argc, char **argv) {
         }
     }
     if (h_flag) {
+        //help will describe how to use this program and wont run any tests.
         printf("SYNOPSIS\n");
         printf("   A test harness for the small numerical library.\n\n");
         printf("USAGE\n");
