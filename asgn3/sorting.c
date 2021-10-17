@@ -39,7 +39,6 @@ int main(int argc, char **argv) {
             break;
         case 'n':
             size = strtoul(optarg, NULL, 10);
-            elements = size;
             //printf("size %u\n", size);
             break;
         case 'p':
