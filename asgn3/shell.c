@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int32_t iter_val = 0;
+//static int32_t iter_val = 0;
 int32_t gaps(int32_t n) {
-    //static uint32_t iter_val = 0;
+    static uint32_t iter_val = 0;
 
     if (iter_val <= 0) {
         iter_val = (int32_t)(log(3 + 2 * n) / log(3));

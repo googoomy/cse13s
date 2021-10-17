@@ -77,10 +77,10 @@ int main(int argc, char **argv) {
     for (uint32_t i = 0; i < size; i += 1) {
         A[i] = random() & (((long) 1 << (30)) - 1);
     }
-    uint32_t B[size];
-    for (uint32_t i = 0; i < size; i += 1) {
-        B[i] = A[i];
-    }
+    //uint32_t B[size];
+    //for (uint32_t i = 0; i < size; i += 1) {
+    //    B[i] = A[i];
+    //}
     //uint32_t A[size];
     if (member_set(HEAP, s)) {
         //memcpy(A, B, size);
@@ -101,9 +101,9 @@ int main(int argc, char **argv) {
         }
         //free(A);
         //memcpy(A, B, size);
-        for (uint32_t i = 0; i < size; i += 1) {
-            A[i] = B[i];
-        }
+        //for (uint32_t i = 0; i < size; i += 1) {
+        //    A[i] = B[i];
+        //}
         reset(&stats);
     }
     if (member_set(SHELL, s)) {
@@ -112,6 +112,11 @@ int main(int argc, char **argv) {
         //	A[i] = random() & (((long) 1 << (30)) - 1);
         //}
         //memcpy(A, B, size);
+	srandom(seed);
+	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+    	for (uint32_t i = 0; i < size; i += 1) {
+        	A[i] = random() & (((long) 1 << (30)) - 1);
+    	}
         shell_sort(&stats, A, size);
         printf("Shell Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
@@ -125,9 +130,9 @@ int main(int argc, char **argv) {
         }
         //free(A);
         //memcpy(A, B, size);
-        for (uint32_t i = 0; i < size; i += 1) {
-            A[i] = B[i];
-        }
+        //for (uint32_t i = 0; i < size; i += 1) {
+        //    A[i] = B[i];
+        //}
         reset(&stats);
     }
     if (member_set(INSERTION, s)) {
@@ -136,7 +141,13 @@ int main(int argc, char **argv) {
         //	A[i] = random() & (((long) 1 << (30)) - 1);
         //}
         //memcpy(A, B, size);
-        insertion_sort(&stats, A, size);
+        srandom(seed);
+	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+    	for (uint32_t i = 0; i < size; i += 1) {
+        	A[i] = random() & (((long) 1 << (30)) - 1);
+    	}
+
+	insertion_sort(&stats, A, size);
         printf("Insertion Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
         if (elements > 0) {
@@ -147,9 +158,9 @@ int main(int argc, char **argv) {
                 }
             }
         }
-        for (uint32_t i = 0; i < size; i += 1) {
-            A[i] = B[i];
-        }
+        //for (uint32_t i = 0; i < size; i += 1) {
+        //    A[i] = B[i];
+        //}
         //free(A);
         //memcpy(A, B, size);
         reset(&stats);
@@ -160,7 +171,14 @@ int main(int argc, char **argv) {
         //	A[i] = random() & (((long) 1 << (30)) - 1);
         //}
         //memcpy(A,B, size);
-        quick_sort(&stats, A, size);
+	srandom(seed);
+	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+    	for (uint32_t i = 0; i < size; i += 1) {
+        	A[i] = random() & (((long) 1 << (30)) - 1);
+    	}
+
+
+	quick_sort(&stats, A, size);
         printf("Quick Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
         if (elements > 0) {
