@@ -58,7 +58,13 @@ int main(int argc, char ** argv){
 		A[i] = random() & 1 << (30) - 1;
 	}	
 	if(member_set(INSERTION, s)){
-	
+		printf("Insertion Sort, %u elements, %u moves, %u compares\n", size);
+		if(elements > 0){
+			printf("%13" PRIu32, A[i]);
+			if((i+1)%5 == 0){
+				printf("\n");
+			}
+		}
 	}
 	return 0;
 }
