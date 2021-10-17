@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
         if (elements > 0) {
             for (uint32_t i = 0; i < elements; i += 1) {
                 printf("%13" PRIu32, A[i]);
-                if ((i + 1) % 5 == 0) {
+                if ((i + 1) % 5 == 0 || elements - (i + 1) == 0) {
                     printf("\n");
                 }
             }
@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
         if (elements > 0) {
             for (uint32_t i = 0; i < elements; i += 1) {
                 printf("%13" PRIu32, A[i]);
-                if ((i + 1) % 5 == 0) {
+                if ((i + 1) % 5 == 0 || elements - (i + 1) == 0) {
                     printf("\n");
                 }
             }
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
         if (elements > 0) {
             for (uint32_t i = 0; i < elements; i += 1) {
                 printf("%13" PRIu32, A[i]);
-                if ((i + 1) % 5 == 0) {
+                if ((i + 1) % 5 == 0 || elements - (i + 1) == 0) {
                     printf("\n");
                 }
             }
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
         if (elements > 0) {
             for (uint32_t i = 0; i < elements; i += 1) {
                 printf("%13" PRIu32, A[i]);
-                if ((i + 1) % 5 == 0) {
+                if ((i + 1) % 5 == 0 || elements - (i + 1) == 0) {
                     printf("\n");
                 }
             }
