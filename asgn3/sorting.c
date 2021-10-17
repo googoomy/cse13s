@@ -41,10 +41,11 @@ int main(int argc, char ** argv){
 				break;
 			case 'r':
 				seed = strtoul(optarg, NULL, 10);
-				printf("seed %u\n", seed);
+				//printf("seed %u\n", seed);
 				break;
 			case 'n':
 				size = strtoul(optarg, NULL, 10);
+				elements = size;
 				printf("size %u\n", size);
 				break;
 			case 'p':
@@ -58,10 +59,13 @@ int main(int argc, char ** argv){
 	
 	}
 	
-
+	srandom(seed);
 	Stats stats;
 	stats.moves = 0;
 	stats.compares = 0;
+	if(size < elements){
+		elements = size;
+	}
 	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
 	for(uint32_t i = 0; i < size; i+=1){
 		A[i] = random() & (((long)1 << (30))-1);
@@ -104,6 +108,19 @@ int main(int argc, char ** argv){
 			}
 		}
 		reset(&stats);
+	}
+	if(member_set(QUICK, s)){
+		quick_sort(&stats, A, size);
+		printf("Quick Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size, stats.moves, stats.compares);
+		if(elements > 0){
+			for(uint32_t i = 0; i < elements; i+=1){
+				printf("%13" PRIu32, A[i]);
+				if((i+1)%5 == 0){
+					printf("\n");
+				}
+			}
+		}
+	
 	}
 	free(A);
 	return 0;
