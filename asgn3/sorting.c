@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "set.h"
+#include "stats.h"
+#include "insert.h"
+#include "shell.h"
+#include "heap.h"
+#include "quick.h"
 
 #define OPTIONS "aeisqr:n:p:h"
 
@@ -43,7 +48,7 @@ int main(int argc, char ** argv){
 				printf("size %u\n", size);
 				break;
 			case 'p':
-				elements = stroul(optarg, NULL, 10);
+				elements = strtoul(optarg, NULL, 10);
 				printf("size %u\n", elements);
 				break;
 			case 'h':
@@ -52,19 +57,54 @@ int main(int argc, char ** argv){
 		}
 	
 	}
+	
 
+	Stats stats;
+	stats.moves = 0;
+	stats.compares = 0;
 	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
 	for(uint32_t i = 0; i < size; i+=1){
-		A[i] = random() & 1 << (30) - 1;
+		A[i] = random() & (((long)1 << (30))-1);
 	}	
 	if(member_set(INSERTION, s)){
-		printf("Insertion Sort, %u elements, %u moves, %u compares\n", size);
+		insertion_sort(&stats, A, size);
+		printf("Insertion Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size, stats.moves, stats.compares);
 		if(elements > 0){
-			printf("%13" PRIu32, A[i]);
-			if((i+1)%5 == 0){
-				printf("\n");
+			for(uint32_t i = 0; i < elements; i += 1){
+				printf("%13" PRIu32, A[i]);
+				if((i+1)%5 == 0){
+					printf("\n");
+				}	
 			}
 		}
+		reset(&stats);
 	}
+	if(member_set(SHELL, s)){
+		shell_sort(&stats, A, size);
+		printf("Shell Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size, stats.moves, stats.compares);
+		if(elements > 0){
+			for(uint32_t i = 0; i < elements; i+=1){
+				printf("%13" PRIu32, A[i]);
+				if((i+1)%5 == 0){
+					printf("\n");
+				}
+			}
+		}
+		reset(&stats);
+	}
+	if(member_set(HEAP, s)){
+		heap_sort(&stats, A, size);
+		printf("Heap Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size, stats.moves, stats.compares);
+		if(elements > 0){
+			for(uint32_t i = 0; i < elements; i+=1){
+				printf("%13" PRIu32, A[i]);
+				if((i+1)%5 == 0){
+					printf("\n");
+				}
+			}
+		}
+		reset(&stats);
+	}
+	free(A);
 	return 0;
 }
