@@ -8,17 +8,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//static int32_t iter_val = 0;
+static int32_t iter_val = 0;
 int32_t gaps(int32_t n) {
-    static uint32_t iter_val = 0;
+    //static uint32_t iter_val = 0;
 
     if (iter_val <= 0) {
         iter_val = (int32_t)(log(3 + 2 * n) / log(3));
     } else {
         iter_val -= 1;
     }
-    int32_t r = floor((pow(3, iter_val) - 1) / 2);
-    return r;
+    return floor((pow(3, iter_val) - 1) / 2);
 }
 
 void shell_sort(Stats *stats, uint32_t *A, uint32_t n) {

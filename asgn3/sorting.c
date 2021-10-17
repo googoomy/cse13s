@@ -112,11 +112,11 @@ int main(int argc, char **argv) {
         //	A[i] = random() & (((long) 1 << (30)) - 1);
         //}
         //memcpy(A, B, size);
-	srandom(seed);
-	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
-    	for (uint32_t i = 0; i < size; i += 1) {
-        	A[i] = random() & (((long) 1 << (30)) - 1);
-    	}
+        srandom(seed);
+        uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+        for (uint32_t i = 0; i < size; i += 1) {
+            A[i] = random() & (((long) 1 << (30)) - 1);
+        }
         shell_sort(&stats, A, size);
         printf("Shell Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
@@ -142,12 +142,12 @@ int main(int argc, char **argv) {
         //}
         //memcpy(A, B, size);
         srandom(seed);
-	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
-    	for (uint32_t i = 0; i < size; i += 1) {
-        	A[i] = random() & (((long) 1 << (30)) - 1);
-    	}
+        uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+        for (uint32_t i = 0; i < size; i += 1) {
+            A[i] = random() & (((long) 1 << (30)) - 1);
+        }
 
-	insertion_sort(&stats, A, size);
+        insertion_sort(&stats, A, size);
         printf("Insertion Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
         if (elements > 0) {
@@ -171,14 +171,13 @@ int main(int argc, char **argv) {
         //	A[i] = random() & (((long) 1 << (30)) - 1);
         //}
         //memcpy(A,B, size);
-	srandom(seed);
-	uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
-    	for (uint32_t i = 0; i < size; i += 1) {
-        	A[i] = random() & (((long) 1 << (30)) - 1);
-    	}
+        srandom(seed);
+        uint32_t *A = (uint32_t *) calloc(size, sizeof(uint32_t));
+        for (uint32_t i = 0; i < size; i += 1) {
+            A[i] = random() & (((long) 1 << (30)) - 1);
+        }
 
-
-	quick_sort(&stats, A, size);
+        quick_sort(&stats, A, size);
         printf("Quick Sort, %u elements, %" PRIu64 " moves, %" PRIu64 " compares\n", size,
             stats.moves, stats.compares);
         if (elements > 0) {
