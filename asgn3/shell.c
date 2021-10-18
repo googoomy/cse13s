@@ -16,6 +16,7 @@ static uint32_t iter_val = 0;
 
 //gaps() keeps track of the current gap
 uint32_t gaps(uint32_t n) {
+    //gaps pseudocode also given by TA Christian
     if (iter_val <= 0) {
         iter_val = (uint32_t)(log(3 + 2 * n) / log(3));
     } else {
