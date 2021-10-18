@@ -25,7 +25,7 @@ void shell_sort(Stats *stats, uint32_t *A, uint32_t n) {
     uint32_t iters = (uint32_t)(log(3 + 2 * n) / log(3));
     //for (uint32_t i = 0; i < iters; i++) {
     for (uint32_t i = iters; i > 0; i -= 1) {
-        uint32_t gap = gaps(n);
+        uint32_t gap = gaps(i);
         for (uint32_t k = gap; k < n; k++) {
             uint32_t j = k;
             uint32_t temp = move(stats, A[k]);
