@@ -61,8 +61,9 @@ bool stack_push(Stack *s, uint32_t x) {
     if (s == NULL || stack_full(s) == true) {
         return false;
     }
-    s->items[s->top++] = x;
+    s->items[s->top] = x;
     //s->top++;
+    s->top += 1;
     return true;
 }
 
@@ -70,9 +71,10 @@ bool stack_pop(Stack *s, uint32_t *x) {
     if (s == NULL || stack_empty(s) == true) {
         return false;
     }
-    *x = s->items[--s->top];
+    *x = s->items[s->top];
     s->items[s->top] = 0;
     //s->top--;
+    s->top -= 1;
     return true;
 }
 
