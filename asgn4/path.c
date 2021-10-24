@@ -77,6 +77,6 @@ void path_copy(Path *dst, Path *src){
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
+	fprintf("Path length: %" PRIu32, p->length);
 	stack_print(p->vertices, outfile, cities);
-	fprintf("Path length: %" PRIu32, p->length;
 }
