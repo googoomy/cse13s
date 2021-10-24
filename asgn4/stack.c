@@ -71,8 +71,9 @@ bool stack_pop(Stack *s, uint32_t *x) {
     if (s == NULL || stack_empty(s) == true) {
         return false;
     }
+    s->top -= 1;
     *x = s->items[s->top];
-    s->items[s->top--] = 0;
+    s->items[s->top] = 0;
     return true;
 }
 
@@ -80,7 +81,9 @@ bool stack_peek(Stack *s, uint32_t *x) {
     if (s == NULL || stack_empty(s) == true) {
         return false;
     }
+    s->top -= 1;
     *x = s->items[s->top];
+    s->top += 1;
     return true;
 }
 
