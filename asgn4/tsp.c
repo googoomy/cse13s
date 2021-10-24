@@ -153,14 +153,14 @@ int main(int argc, char **argv) {
     vertices_line[strlen(vertices_line) - 1] = '\0';
     sscanf(vertices_line, "%u", &vertices);
 
-    char *cities[vertices];
+    char *cities = (char *) calloc(vertices, sizeof(char));
 
     for (uint32_t i = 0; i < vertices; i += 1) {
         char curr_city[1024];
         fgets(curr_city, 1024, input_file);
         curr_city[strlen(curr_city) - 1] = '\0';
         char *copy_city = strdup(curr_city);
-        cities[i] = copy_city;
+        cities[i] = *copy_city;
         free(copy_city);
         copy_city = NULL;
     }
@@ -189,11 +189,13 @@ int main(int argc, char **argv) {
     if (vertices == 0 || vertices == 1) {
         printf("There's nowhere to go.\n");
     } else {
-        dfs(locations, START_VERTEX, curr, shortest, cities, output_file, v_flag);
+        dfs(locations, START_VERTEX, curr, shortest, &cities, output_file, v_flag);
         if (v_flag == false) {
-            path_print(shortest, output_file, cities);
+            path_print(shortest, output_file, &cities);
         }
         printf("Total recursive calls: %" PRIu32 "\n", recursive_calls);
     }
     graph_delete(&locations);
+    free(cities);
+    cities = NULL;
 }
