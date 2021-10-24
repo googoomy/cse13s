@@ -15,7 +15,7 @@ format:
 	clang-format -i -style=file *.[ch]
 
 clean:
-	rm -f sorting *.o *.exe
+	rm -f tsp *.o *.exe
 
 scan-build: clean
 	scan-build --use-cc=$(CC) make
