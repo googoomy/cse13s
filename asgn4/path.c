@@ -47,22 +47,22 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
         uint32_t edge = graph_edge_weight(G, last_Vertex, v);
         p->length = p->length + edge;
     }
-    bool successful_Push = stack_push(p->vertices, v);
-    return successful_Push;
+    stack_push(p->vertices, v);
+    return true;
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     if (p == NULL || G == NULL || stack_empty(p->vertices)) {
         return false;
     }
-    bool successful_Pop = stack_pop(p->vertices, v);
+    stack_pop(p->vertices, v);
     if (stack_empty(p->vertices) == false) {
         uint32_t last_Vertex = 0;
         stack_peek(p->vertices, &last_Vertex);
         uint32_t edge = graph_edge_weight(G, last_Vertex, *v);
         p->length = p->length - edge;
     }
-    return successful_Pop;
+    return true;
 }
 
 uint32_t path_vertices(Path *p) {
