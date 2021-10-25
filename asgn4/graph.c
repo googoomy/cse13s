@@ -88,7 +88,7 @@ void graph_print(Graph *G) {
         for (uint32_t j = 0; j < G->vertices; j += 1) {
             printf("%" PRIu32 " ", G->matrix[i][j]);
         }
-        printf("/n");
+        printf("\n");
     }
     for (uint32_t k = 0; k < G->vertices; k += 1) {
         printf("%" PRIu32 " ", G->visited[k]);

@@ -185,9 +185,11 @@ int main(int argc, char **argv) {
         }
 
         //printf("%" PRIu32 "\n", vertices);
-        char *cities = (char *) calloc(vertices, sizeof(char));
+        /*
+	char *cities = (char *) calloc(vertices, sizeof(char));
         //char *cities[vertices];
-        for (uint32_t i = 0; i < vertices; i += 1) {
+        
+	for (uint32_t i = 0; i < vertices; i += 1) {
             char curr_city[1024];
             fgets(curr_city, 1024, input_file);
             curr_city[strlen(curr_city) - 1] = '\0';
@@ -199,24 +201,23 @@ int main(int argc, char **argv) {
             free(city_copy);
             city_copy = NULL;
         }
-        //for(uint32_t i = 0; i < vertices; i+=1){
-        //	printf("%s \n", cities[i]);
-        //free(cities);
-        //printf("%c \n", cities[i]);
-        //}
-        /*
+	*/
 
-	char *cities[vertices][1024];
-	for(uint32_t i = 0; i < vertices; i+=1){
-		char curr_city[1024];
-		fgets(curr_city, 1024, input_file);
-		curr_city[strlen(curr_city)-1] = '\0';
-		char* city_copy = strdup(curr_city);
-		cities[i] = *city_copy;
-		free(city_copy);
-		city_copy = NULL;
-	}
-*/
+        char *cities[vertices];
+        for (uint32_t i = 0; i < vertices; i += 1) {
+            char curr_city[1024];
+            fgets(curr_city, 1024, input_file);
+            curr_city[strlen(curr_city) - 1] = '\0';
+            //cities[i] = malloc (strlen(curr_city)+1);
+            char *copy = strdup(curr_city);
+            //strcpy(cities[i], copy);
+            cities[i] = strdup(copy);
+            printf("%s\n", cities[i]);
+            //if(i == vertices - 1){
+            free(copy);
+            //}
+        }
+
         Graph *locations = graph_create(vertices, u_flag);
         if (locations == NULL) {
             fprintf(stderr, "%s", "locations in NULL\n");
@@ -225,31 +226,34 @@ int main(int argc, char **argv) {
         }
 
         //char curr_vertex[1024];
+        //do{
         while (!feof(input_file)) {
             uint32_t i = 0;
             uint32_t j = 0;
             uint32_t k = 0;
             char curr_vertex[1024];
             fgets(curr_vertex, 1024, input_file);
-            curr_vertex[strlen(curr_vertex) - 1] = '\0';
             sscanf(curr_vertex, "%u %u %u", &i, &j, &k);
             graph_add_edge(locations, i, j, k);
+            //}while(!feof(input_file));
         }
+        //graph_print(locations);
 
         Path *curr = path_create();
         Path *shortest = path_create();
         if (vertices == 0 || vertices == 1) {
             printf("There's nowhere to go.\n");
         } else {
-            dfs(locations, START_VERTEX, curr, shortest, &cities, output_file, v_flag, vertices);
+            dfs(locations, START_VERTEX, curr, shortest, cities, output_file, v_flag, vertices);
             if (v_flag == false) {
-                path_print(shortest, output_file, &cities);
+                //printf("%c", cities[START_VERTEX]);
+                path_print(shortest, output_file, cities);
             }
             printf("Total recursive calls: %" PRIu32 "\n", recursive_calls);
         }
         fclose(output_file);
         fclose(input_file);
+        graph_print(locations);
         graph_delete(&locations);
-        free(cities);
     }
 }
