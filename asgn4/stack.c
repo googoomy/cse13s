@@ -43,7 +43,7 @@ void stack_delete(Stack **s) {
 //this function returns true if the stack is empty and false if not
 bool stack_empty(Stack *s) {
     //if the first element is 0 then everything is 0 so it is empty
-    if (s->items[0] == 0) {
+    if (s->top == 0) {
         return true;
     }
     return false;
@@ -52,7 +52,7 @@ bool stack_empty(Stack *s) {
 //this function returns true if the stack is full and false if not
 bool stack_full(Stack *s) {
     //if the top element in the stack is not 0 then everything is not 0 so it is full
-    if (s->items[s->capacity - 1] != 0) {
+    if (s->top == s->capacity) {
         return true;
     }
     return false;
