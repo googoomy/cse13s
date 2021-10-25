@@ -58,9 +58,31 @@ bool everything_visited(Graph *G) {
     return true;
 }
 
+/*
+void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool v_flag, uint32_t vertices){
+	recursive_calls += 1;
+	if(everything_visited(G)){
+		path_print(curr, outfile, cities);
+		if(path_length(curr) < path_length(shortest) || path_length(shortest) == 0){
+			path_copy(shortest, curr);
+		}		
+	}
+	graph_mark_visited(G,v);
+	path_push_vertex(curr, v, G);
+
+	for(uint32_t i = 0; i < vertices; i += 1){
+		if(graph_has_edge(G, v, i)
+	}
+}
+*/
+
+
+
+
+/*
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile,
     bool v_flag, uint32_t vertices) {
-    if (path_length(curr) == vertices) {
+    if (everything_visited(G)) {
         if (v_flag) {
             path_print(curr, outfile, cities);
         }
@@ -117,6 +139,9 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     graph_mark_unvisited(G, v);
     path_pop_vertex(curr, &v, G);
 }
+*/
+
+
 
 int main(int argc, char **argv) {
     int opt = 0;
@@ -212,7 +237,7 @@ int main(int argc, char **argv) {
             char *copy = strdup(curr_city);
             //strcpy(cities[i], copy);
             cities[i] = strdup(copy);
-            printf("%s\n", cities[i]);
+            //printf("%s\n", cities[i]);
             //if(i == vertices - 1){
             free(copy);
             //}

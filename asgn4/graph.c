@@ -34,6 +34,7 @@ void graph_delete(Graph **G) {
     return;
 }
 
+//this function 
 uint32_t graph_vertices(Graph *G) {
     return G->vertices;
 }
