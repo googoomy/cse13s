@@ -15,40 +15,6 @@ static FILE *input_file = NULL;
 static FILE *output_file = NULL;
 static uint32_t recursive_calls = 0;
 
-//bool read_input(char *in_file, uint32_t vertices){
-//input = fopen(in_file, "r"){
-
-//}
-//output = fopen(out_file, "r"){
-
-//}
-//if(input == NULL){
-//	free(input);
-//}
-//if(output == NULL){
-//	free(output);
-//}
-//return true;
-//input = fopen(in_file, "r");
-//char buf[1024];
-//fgets(buf, 1024, input);
-//buf[strlen(buf)-1] = '\0';
-//sscanf(buf, "%u", &vertices);
-//strdup
-//}
-
-/*
-uint32_t number_adjacents(Graph *G, uint32_t v, uint32_t num_vertices){
-	uint32_t counter = 0;
-	for(uint32_t i = 0; i < num_vertices; i+=1){
-		if(graph_has_edge(G, v, i)){
-			counter += 1;
-		}
-	}
-	return counter;
-}
-*/
-
 bool everything_visited(Graph *G) {
     for (uint32_t i = 0; i < graph_vertices(G); i += 1) {
         if (graph_visited(G, i) == false) {
@@ -57,31 +23,6 @@ bool everything_visited(Graph *G) {
     }
     return true;
 }
-
-/*
-void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool v_flag, uint32_t vertices){
-	recursive_calls += 1;
-	if(everything_visited(G)){
-		path_print(curr, outfile, cities);
-		if(path_length(curr) < path_length(shortest) || path_length(shortest) == 0){
-			path_copy(shortest, curr);
-		}		
-	}
-	graph_mark_visited(G,v);
-	path_push_vertex(curr, v, G);
-
-	for(uint32_t i = 0; i < vertices; i += 1){
-		if(graph_has_edge(G, v, i)){
-			if(graph_visited(G, i) == false){
-				dfs(G, i, curr, shortest, cities, outfile, v_flag, vertices);
-			}
-		}
-	}
-	graph_mark_unvisited(G, v);
-	path_pop_vertex(curr, v, G);
-}
-
-*/
 
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile,
     bool v_flag, uint32_t vertices) {
@@ -92,28 +33,10 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
         if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) {
             path_copy(shortest, curr);
         }
-        //free(curr);
-        //v = 0;
-        //graph_mark_unvisited(G, v);
-        //path_pop_vertex(curr, &v, G);
     }
     recursive_calls += 1;
     graph_mark_visited(G, v);
     path_push_vertex(curr, v, G);
-    //for(uint32_t i = 0; i < number_adjacents(G, v, num_vertices)){
-
-    //if (path_length(curr) == vertices) {
-    //    if (v_flag) {
-    //        path_print(curr, outfile, cities);
-    //    }
-    //    if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) {
-    //        path_copy(shortest, curr);
-    //    }
-    //free(curr);
-    //v = 0;
-    //graph_mark_unvisited(G, v);
-    //path_pop_vertex(curr, &v, G);
-    //}
 
     for (uint32_t i = 0; i < graph_vertices(G); i += 1) {
         if (graph_has_edge(G, v, i)) {
@@ -122,23 +45,6 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
             }
         }
     }
-    //}
-    //if(everything_visited){
-    //print to outfile
-    //check if theresa new shortest
-    //}
-    //if (path_length(curr) == vertices) {
-    //    if (v_flag) {
-    //        path_print(curr, outfile, cities);
-    //    }
-    //    if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) {
-    //        path_copy(shortest, curr);
-    //    }
-    //free(curr);
-    //v = 0;
-    //   graph_mark_unvisited(G, v);
-    //    path_pop_vertex(curr, &v, G);
-    //}
     graph_mark_unvisited(G, v);
     path_pop_vertex(curr, &v, G);
 }
