@@ -28,10 +28,10 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     bool v_flag, uint32_t vertices) {
     if (everything_visited(G)) {
         //if verbose is activated, print to outfile
-	if (v_flag) {
+        if (v_flag) {
             path_print(curr, outfile, cities);
         }
-	//if the current path length is less than the shortest or there is no shortest yet, make the current path the shortest path
+        //if the current path length is less than the shortest or there is no shortest yet, make the current path the shortest path
         if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) {
             path_copy(shortest, curr);
         }
@@ -110,11 +110,11 @@ int main(int argc, char **argv) {
         }
         //get the first line vertices number out of the input file
         //This character buffering lines are from TA Eugene
-	char vertices_line[1024];
+        char vertices_line[1024];
         fgets(vertices_line, 1024, input_file);
         vertices_line[strlen(vertices_line) - 1] = '\0';
         //this error handling is from TA Omar
-	if (1 != sscanf(vertices_line, "%u", &vertices)) {
+        if (1 != sscanf(vertices_line, "%u", &vertices)) {
             fprintf(stderr, "Nothing in file");
             return 1;
         }
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
 
         Path *curr = path_create();
         Path *shortest = path_create();
-	//If there is not enough veertices then there is no where to go.
+        //If there is not enough veertices then there is no where to go.
         if (vertices == 0 || vertices == 1) {
             printf("There's nowhere to go.\n");
         } else {
