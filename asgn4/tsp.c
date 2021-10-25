@@ -71,15 +71,18 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
 	path_push_vertex(curr, v, G);
 
 	for(uint32_t i = 0; i < vertices; i += 1){
-		if(graph_has_edge(G, v, i)
+		if(graph_has_edge(G, v, i)){
+			if(graph_visited(G, i) == false){
+				dfs(G, i, curr, shortest, cities, outfile, v_flag, vertices);
+			}
+		}
 	}
+	graph_mark_unvisited(G, v);
+	path_pop_vertex(curr, v, G);
 }
+
 */
 
-
-
-
-/*
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile,
     bool v_flag, uint32_t vertices) {
     if (everything_visited(G)) {
@@ -112,10 +115,10 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     //path_pop_vertex(curr, &v, G);
     //}
 
-    for (uint32_t j = 0; j < graph_vertices(G); j += 1) {
-        if (graph_has_edge(G, v, j)) {
-            if (graph_visited(G, j) == false) {
-                dfs(G, j, curr, shortest, cities, outfile, v_flag, vertices);
+    for (uint32_t i = 0; i < graph_vertices(G); i += 1) {
+        if (graph_has_edge(G, v, i)) {
+            if (graph_visited(G, i) == false) {
+                dfs(G, i, curr, shortest, cities, outfile, v_flag, vertices);
             }
         }
     }
@@ -139,9 +142,6 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     graph_mark_unvisited(G, v);
     path_pop_vertex(curr, &v, G);
 }
-*/
-
-
 
 int main(int argc, char **argv) {
     int opt = 0;
@@ -189,7 +189,7 @@ int main(int argc, char **argv) {
         printf("  -i infile      Input containing graph (default: stdin)\n");
         printf("  -o outfile     Output of computer path (default: stdout)\n");
     } else {
-
+        //stdin if no input specified and stdout if no output specified
         if (i_flag == false) {
             input_file = stdin;
         } else {
@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
         } else {
             output_file = fopen(out, "w+");
         }
-
+        //get the first line vertices number out of the input file
         char vertices_line[1024];
         fgets(vertices_line, 1024, input_file);
         vertices_line[strlen(vertices_line) - 1] = '\0';
@@ -209,40 +209,18 @@ int main(int argc, char **argv) {
             return 1;
         }
 
-        //printf("%" PRIu32 "\n", vertices);
-        /*
-	char *cities = (char *) calloc(vertices, sizeof(char));
-        //char *cities[vertices];
-        
-	for (uint32_t i = 0; i < vertices; i += 1) {
-            char curr_city[1024];
-            fgets(curr_city, 1024, input_file);
-            curr_city[strlen(curr_city) - 1] = '\0';
-            //printf("%s \n", curr_city);
-            char *city_copy = strdup(curr_city);
-            //printf("%s \n", curr_city);
-            //strcpy(cities[i], city_copy);
-            cities[i] = *city_copy;
-            free(city_copy);
-            city_copy = NULL;
-        }
-	*/
-
+        //for the next vertices number of lines add the city names to the cities[] array
         char *cities[vertices];
         for (uint32_t i = 0; i < vertices; i += 1) {
             char curr_city[1024];
             fgets(curr_city, 1024, input_file);
             curr_city[strlen(curr_city) - 1] = '\0';
-            //cities[i] = malloc (strlen(curr_city)+1);
             char *copy = strdup(curr_city);
-            //strcpy(cities[i], copy);
             cities[i] = strdup(copy);
-            //printf("%s\n", cities[i]);
-            //if(i == vertices - 1){
             free(copy);
-            //}
         }
 
+        //create a graph using the number of vertices and specifed direction
         Graph *locations = graph_create(vertices, u_flag);
         if (locations == NULL) {
             fprintf(stderr, "%s", "locations in NULL\n");
@@ -250,8 +228,7 @@ int main(int argc, char **argv) {
             return 1;
         }
 
-        //char curr_vertex[1024];
-        //do{
+        //add the vertices and their weights to the graph until the end of file is reached
         while (!feof(input_file)) {
             uint32_t i = 0;
             uint32_t j = 0;
@@ -260,9 +237,7 @@ int main(int argc, char **argv) {
             fgets(curr_vertex, 1024, input_file);
             sscanf(curr_vertex, "%u %u %u", &i, &j, &k);
             graph_add_edge(locations, i, j, k);
-            //}while(!feof(input_file));
         }
-        //graph_print(locations);
 
         Path *curr = path_create();
         Path *shortest = path_create();
@@ -271,7 +246,6 @@ int main(int argc, char **argv) {
         } else {
             dfs(locations, START_VERTEX, curr, shortest, cities, output_file, v_flag, vertices);
             if (v_flag == false) {
-                //printf("%c", cities[START_VERTEX]);
                 path_print(shortest, output_file, cities);
             }
             printf("Total recursive calls: %" PRIu32 "\n", recursive_calls);
