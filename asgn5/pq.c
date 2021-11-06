@@ -4,6 +4,8 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <stdbool.h>
 
 struct PriorityQueue{
 	uint32_t head;
@@ -62,22 +64,69 @@ static Node *get_pq_element(PriorityQueue *q, uint32_t index){
 }
 
 static void set_pq_element(PriorityQueue *q, uint32_t index, Node *n){
-	
+	if(!pq_empty(q) && index < q->size-1){
+		q->items[index] = n;
+		
+	}	
+}
+
+static uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last){
+	uint32_t left = 2 * first;
+	uint32_t right = left + 1;
+	if(right <= last && get_pq_element(q, right - 1)->frequency < get_pq_element(q, left - 1)->frequency){
+		return right;
+	}	
+	return left;
+}
+
+static void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last){
+	bool found = false;
+	uint32_t mother = first;
+	uint32_t least = min_child(q, mother, last);
+	while(mother >= floor(last/2) && !found){
+		if(get_pq_element(q, mother - 1)->frequency > get_pq_element(q, least - 1)->frequency){
+			Node *temp = q->items[mother - 1];
+			q->items[mother - 1] = q->items[least - 1];
+			q->items[least - 1] = temp;	
+			mother = least;
+			least = min_child(q, mother, last);
+		}else{
+			found = true;
+		}
+	}
 }
 
 bool enqueue(PriorityQueue *q, Node *n){
-
+	if(pq_full(q)){
+		return false;
+	}
+	set_pq_element(q, q->tail, n);
+	q->tail += 1;
+	//fix_heap(q, head, tail);
+	q->size += 1;
+	return true;
 }
 
 bool dequeue(PriorityQueue *q, Node **n){
 	if(pq_empty(q)){
 		return false;
 	}
-	*n = q->items[q->head++];
-	q->size--;
+	//*n = q->items[q->head++];
+	//q->size--;
+	uint32_t temp = 0;
+	for(uint32_t i = 0; i < q->size; i+=1){
+		if(q->items[temp]->frequency > q->items[i]->frequency){
+			temp = i;
+		}
+	}
+	*n = q->items[temp];
+	for(uint32_t i = temp; i < q->size; i+=1){
+		q->items[i] = q->items[i+1];
+	}
+	q->size-=1;
 	return true;
 }
 
 void pq_print(PriorityQueue *q){
-
+	
 }
