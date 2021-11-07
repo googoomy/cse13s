@@ -60,7 +60,8 @@ bool code_push_bit(Code *c, uint8_t bit) {
     if (code_full(c)) {
         return false;
     }
-    c->bits[c->top / 8] = bit;
+    //bitwise operation was given by TA Eugene
+    c->bits[c->top / 8] |= bit << (c->top % 8);
     c->top += 1;
     return true;
 }
@@ -69,7 +70,9 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     if (code_empty(c)) {
         return false;
     }
-    *bit = c->bits[c->top / 8];
+    *bit = c->bits[c->top / 8] | (1 << (c->top % 8));
+    //opposite of push
+    c->bits[c->top / 8] &= ~(1 << c->top % 8);
     c->top -= 1;
     return true;
 }
