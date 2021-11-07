@@ -116,7 +116,7 @@ bool dequeue(PriorityQueue *q, Node **n) {
     //q->size--;
     uint32_t temp = 0;
     for (uint32_t i = 0; i < q->size; i += 1) {
-        if (q->items[temp]->frequency > q->items[i]->frequency) {
+        if ((q->items[temp])->frequency >= (q->items[i])->frequency) {
             temp = i;
         }
     }
