@@ -69,8 +69,8 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
     if (code_empty(c)) {
         return false;
     }
-    c->top -= 1;
     *bit = c->bits[c->top / 8];
+    c->top -= 1;
     return true;
 }
 
