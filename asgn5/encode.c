@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
             break;
         }
     }
-    if (h_flag == true || no_input_flag = true) {
+    if (h_flag == true || no_input_flag == true) {
         printf("SYNOPSIS\n");
         printf("  A Huffman encoder.\n");
         printf("  Compresses a file using the Huffman coding algorithm.\n\n");
