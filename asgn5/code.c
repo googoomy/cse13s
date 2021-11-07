@@ -70,7 +70,7 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
         return false;
     }
     c->top -= 1;
-    bit = &c->bits[c->top / 8];
+    *bit = c->bits[c->top / 8];
     return true;
 }
 
