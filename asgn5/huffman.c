@@ -17,7 +17,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         Node *n = node_create(i, hist[i]);
         enqueue(q, n);
     }
-    while (pq_size(q) > 1) {
+    while (pq_size(q) >= 2) {
         Node *left;
         Node *right;
         Node *parent;

@@ -7,8 +7,8 @@
 #include <fcntl.h>
 #include <stdbool.h>
 
-//uint32_t bytes_read = 0;
-//uint32_t bytes_written = 0;
+uint64_t bytes_read = 0;
+uint64_t bytes_written = 0;
 static uint8_t write_bit_buffer[BLOCK] = { 0 };
 static uint8_t write_bit_top = 0;
 
