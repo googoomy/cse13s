@@ -125,6 +125,7 @@ int main(int argc, char **argv) {
     flush_codes(output_file);
     free(histogram);
     delete_tree(&huffman_tree_root);
+    node_delete(&huffman_tree_root);
     //close infile and outfile
     close(output_file);
     close(input_file);
