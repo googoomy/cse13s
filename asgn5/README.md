@@ -1,0 +1,7 @@
+#James Gu 
+#jjgu 
+#Fall 2021 
+#Assignment 5: Huffman Coding
+##DESCRIPTION OF PROGRAM:In computer science, data compression is a very commonly used technique that's used in numerous cases like in files, zips, and forms of communication between two different machines. So for the goal of this assignment, we have to implement both an encoder and decoder. The encoder involves creating a histogram of the given file, constructing a Huffman tree , and based on this tree encode it to an output file. The decoder reads the compressed file and decompresses it so it is back to the original input file.
+###BUILD FOR PROGRAM: This program requires the following:encode.c, decode.c, defines.h, header.h, node.h, node.c, pq.h, pq.c, code.h, code.c, io.h, io.c, stack.h, stack.c, huffman.h, huffman.c, Makefile, README.md, and DESIGN.pdf
+####USER GUIDE: The first step to use this program is to use the command make or make encode or make decode. make will effectively be the same as make all where it will make all programs while make encode and make decode will specify encode or decode. There are a few command line options available for the user which include -h, -v, -i, and -o. using ./encode -h or ./decode -h  or no input will display the user manuals. -v will print decompression statistics to stderr. -i and a filename aftward will specify the input file while -o is the same except it specifies an output file
