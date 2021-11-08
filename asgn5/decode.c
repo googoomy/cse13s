@@ -22,6 +22,7 @@ static int input_file = 0;
 static int output_file = 0;
 
 int main(int argc, char **argv) {
+    //I based the command line options and flags off of my asgn4 tsp
     int opt = 0;
     bool no_input_flag = true;
     bool h_flag = false;
@@ -51,6 +52,7 @@ int main(int argc, char **argv) {
             break;
         }
     }
+    //output the user manual if the user asks for help or if there is no input.
     if (h_flag == true || no_input_flag == true) {
         printf("SYNOPSIS\n");
         printf("  A Huffman decoder.\n");
@@ -89,12 +91,14 @@ int main(int argc, char **argv) {
     read_bytes(input_file, tree_dump, nbytes);
     Node *original_root = rebuild_tree(nbytes, tree_dump);
     //read infile one bit at a time using read_bit
-    //uint8_t buff[BLOCK] = {0};
+    //make a copy because in step 4 of the asgn5 doc you need to set it to the original root
     Node *complete_tree = original_root;
     uint8_t bit = 0;
     uint64_t num_symbols = 0;
+    //read he inputfile for as long as the num symbols read is less than file size
     while (num_symbols < header.file_size) {
         read_bit(input_file, &bit);
+        //if the bit is 0 add left if the bit is 1 right
         if (bit == 0) {
             complete_tree = complete_tree->left;
         } else {
@@ -103,6 +107,7 @@ int main(int argc, char **argv) {
         //if you find yourself at a leaf node, write the leaf node's symbol to outfile
         if (complete_tree->left == NULL && complete_tree->right == NULL) {
             write_bytes(output_file, &complete_tree->symbol, 1);
+            //set to original root
             complete_tree = original_root;
         }
     }

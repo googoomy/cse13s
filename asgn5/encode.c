@@ -22,6 +22,7 @@ static int input_file = 0;
 static int output_file = 0;
 
 int main(int argc, char **argv) {
+    //I based the command line flags off of my tsp from asgn 4
     int opt = 0;
     bool no_input_flag = true;
     bool h_flag = false;
@@ -51,6 +52,7 @@ int main(int argc, char **argv) {
             break;
         }
     }
+    //help output if no input of -h
     if (h_flag == true || no_input_flag == true) {
         printf("SYNOPSIS\n");
         printf("  A Huffman encoder.\n");
@@ -100,6 +102,7 @@ int main(int argc, char **argv) {
     //construct a header
     Header header;
     header.magic = MAGIC;
+    //looked up fstat help to learn these
     struct stat sbuf;
     fstat(input_file, &sbuf);
     fchmod(output_file, sbuf.st_mode);
@@ -117,11 +120,13 @@ int main(int argc, char **argv) {
     lseek(input_file, 0, SEEK_SET);
     uint8_t buff[BLOCK] = { 0 };
     uint32_t bytes = 0;
+    //write the code to outfile
     while ((bytes = read_bytes(input_file, buff, BLOCK)) > 0) {
         for (uint32_t i = 0; i < bytes; i += 1) {
             write_code(output_file, &table[buff[i]]);
         }
     }
+    //flush remainning code
     flush_codes(output_file);
     free(histogram);
     delete_tree(&huffman_tree_root);

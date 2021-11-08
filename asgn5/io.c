@@ -53,7 +53,7 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 }
 
 //reads a block of bytes into a buffer
-//This read_bit function is based on both TA Christian and Eugene's pseudocode
+//This read_bit function is based on both TA Christian and Eugene's pseudocode I combined both their explanations.
 bool read_bit(int infile, uint8_t *bit) {
     //buffer
     static uint8_t read_bit_buffer[BLOCK] = { 0 };
@@ -81,6 +81,7 @@ bool read_bit(int infile, uint8_t *bit) {
 }
 
 //This function writes a block of code  using buffer.
+//This write code function is based on TA Eugene's pseudocode
 void write_code(int outfile, Code *c) {
     for (uint8_t i = 0; i < c->top; i += 1) {
         int bit = code_get_bit(c, i);
