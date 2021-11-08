@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+//This if the constructor function for huffman tree
 //This build tree function is based on the pseudocode provided by TA Eugene
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     PriorityQueue *q = pq_create(ALPHABET);
@@ -32,11 +33,12 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     return root;
 }
 
+//This function populates the code table building the code for each symbol in huffman tree
 //This build codes function is based on the pseudocode provided by TA Eugene
-//static Code c = code_init();
 void build_codes(Node *root, Code table[static ALPHABET]) {
     Code c = code_init();
     if (root != NULL) {
+        //post-order traversal
         //check if root is a leaf
         if (root->left == NULL && root->right == NULL) {
             table[root->symbol] = c;
@@ -52,7 +54,10 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
     }
 }
 
+//this function dumps the tree's contents
+//For this function I followed the explanations from the asgn5 doc and TA Eugene
 void dump_tree(int outfile, Node *root) {
+    //post-order traversal
     if (root != NULL) {
         if (root->left == NULL && root->right == NULL) {
             write_bytes(outfile, (uint8_t *) "L", 1);
@@ -65,6 +70,8 @@ void dump_tree(int outfile, Node *root) {
     }
 }
 
+//Reconstructs the huffman tree
+//For this function I followed the explanations from the asgn5 doc and TA Eugene
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     Stack *s = stack_create(MAX_TREE_SIZE);
     for (uint8_t i = 0; i < nbytes; i += 1) {
@@ -87,7 +94,9 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]) {
     return root;
 }
 
+//The destructor for the huffman tree.
 void delete_tree(Node **root) {
+    //post-order traversal
     if ((*root)->left == NULL && (*root)->right == NULL) {
         node_delete(root);
     } else {

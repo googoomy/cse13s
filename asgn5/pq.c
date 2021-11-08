@@ -7,6 +7,8 @@
 #include <math.h>
 #include <stdbool.h>
 
+//struct for the pq
+//This was given by TA Christian
 struct PriorityQueue {
     uint32_t head;
     uint32_t tail;
@@ -15,6 +17,8 @@ struct PriorityQueue {
     Node **items;
 };
 
+//The constructor for pq
+//pseudocode was given from TA Christian
 PriorityQueue *pq_create(uint32_t capacity) {
     PriorityQueue *q = (PriorityQueue *) malloc(sizeof(PriorityQueue));
     if (q) {
@@ -31,6 +35,8 @@ PriorityQueue *pq_create(uint32_t capacity) {
     return q;
 }
 
+//This deletes the priority queue
+//inspired from the stack_delete from asgn3
 void pq_delete(PriorityQueue **q) {
     if (*q && (*q)->items) {
         free((*q)->items);
@@ -40,6 +46,7 @@ void pq_delete(PriorityQueue **q) {
     return;
 }
 
+//return true if the pq is empty and false otherwise
 bool pq_empty(PriorityQueue *q) {
     if (q->size == 0) {
         return true;
@@ -47,6 +54,7 @@ bool pq_empty(PriorityQueue *q) {
     return false;
 }
 
+//returns true if the pq is full and false otherwise
 bool pq_full(PriorityQueue *q) {
     if (q->size == q->capacity) {
         return true;
@@ -54,49 +62,20 @@ bool pq_full(PriorityQueue *q) {
     return false;
 }
 
+//returns the size of pq
 uint32_t pq_size(PriorityQueue *q) {
     return q->size;
 }
-/*
-static Node *get_pq_element(PriorityQueue *q, uint32_t index){
-	if(!pq_empty(q) && index < q->size-1){
-		return q->items[index];
-	}
-	return NULL;
-}
-*/
+
+//helper function that sets an element in pq to a node that is passed through
+//given by TA Christian
 static void set_pq_element(PriorityQueue *q, uint32_t index, Node *n) {
     if (!pq_empty(q) && index < q->size - 1) {
         q->items[index] = n;
     }
 }
-/*
-static uint32_t min_child(PriorityQueue *q, uint32_t first, uint32_t last){
-	uint32_t left = 2 * first;
-	uint32_t right = left + 1;
-	if(right <= last && get_pq_element(q, right - 1)->frequency < get_pq_element(q, left - 1)->frequency){
-		return right;
-	}	
-	return left;
-}
 
-static void fix_heap(PriorityQueue *q, uint32_t first, uint32_t last){
-	bool found = false;
-	uint32_t mother = first;
-	uint32_t least = min_child(q, mother, last);
-	while(mother >= floor(last/2) && !found){
-		if(get_pq_element(q, mother - 1)->frequency > get_pq_element(q, least - 1)->frequency){
-			Node *temp = q->items[mother - 1];
-			q->items[mother - 1] = q->items[least - 1];
-			q->items[least - 1] = temp;	
-			mother = least;
-			least = min_child(q, mother, last);
-		}else{
-			found = true;
-		}
-	}
-}
-*/
+//Enqueues a node into the pq
 bool enqueue(PriorityQueue *q, Node *n) {
     if (pq_full(q)) {
         return false;
@@ -108,12 +87,11 @@ bool enqueue(PriorityQueue *q, Node *n) {
     return true;
 }
 
+//passes the smallest node to *n
 bool dequeue(PriorityQueue *q, Node **n) {
     if (pq_empty(q)) {
         return false;
     }
-    //*n = q->items[q->head++];
-    //q->size--;
     uint32_t temp = 0;
     for (uint32_t i = 0; i < q->size; i += 1) {
         if ((q->items[temp])->frequency >= (q->items[i])->frequency) {
@@ -128,6 +106,7 @@ bool dequeue(PriorityQueue *q, Node **n) {
     return true;
 }
 
+//prints out the pq
 void pq_print(PriorityQueue *q) {
     for (uint32_t i = 0; i < q->size; i += 1) {
         node_print(q->items[i]);

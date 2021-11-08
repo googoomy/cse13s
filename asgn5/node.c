@@ -7,19 +7,8 @@
 
 typedef struct Node Node;
 
-/*
-struct Node {
-	//Pointer to left chile
-	Node *left;
-	//Pointer to right child
-	Node *right;
-	//Node's symbol
-	uint8_t symbol;
-	//frequency of symbol
-	uint64_t frequency;	
-};
-*/
-
+//constructor for node
+//pseudocode given by TA Christian
 Node *node_create(uint8_t symbol, uint64_t frequency) {
     Node *n = (Node *) malloc(sizeof(Node));
     if (n) {
@@ -31,6 +20,7 @@ Node *node_create(uint8_t symbol, uint64_t frequency) {
     return n;
 }
 
+//destructor for node
 void node_delete(Node **n) {
     if (*n) {
         free(*n);
@@ -38,6 +28,8 @@ void node_delete(Node **n) {
     }
 }
 
+//joins a left and right child to form a parent node
+//pseudocode was given by TA Christian
 Node *node_join(Node *left, Node *right) {
     Node *parent = node_create('$', left->frequency + right->frequency);
     parent->left = left;
@@ -45,6 +37,7 @@ Node *node_join(Node *left, Node *right) {
     return parent;
 }
 
+//prints node
 void node_print(Node *n) {
     printf("%" PRIx8, n->symbol);
     if (n->left != NULL) {
