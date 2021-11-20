@@ -48,7 +48,7 @@ int main(int argc, char **argv){
 				return EXIT_FAILURE;	
 		}
 	}
-	if(h_flag == true || no_input_flag = true){
+	if(h_flag == true || no_input_flag == true){
 		printf("SYNOPSIS\n");
 		printf("   Decrypts data using RSA decryption.\n");
 		printf("   Encrypted data is encrypted by the encrypt program.\n\n");
