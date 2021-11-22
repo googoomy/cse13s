@@ -146,16 +146,16 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 
 //this function conducts the miller-rabin primality test to indicate whether or not n is prime using iters number of miller-rabin iterations.
 bool is_prime(mpz_t n, uint64_t iters) {
-    if (mpz_cmp_ui(n, 1)) {
+    if (mpz_cmp_ui(n, 1) == 0) {
         return false;
     }
-    if (mpz_cmp_ui(n, 2)) {
+    if (mpz_cmp_ui(n, 2) == 0) {
         return true;
     }
-    if (mpz_cmp_ui(n, 3)) {
+    if (mpz_cmp_ui(n, 3) == 0) {
         return true;
     }
-    if (mpz_cmp_ui(n, 4)) {
+    if (mpz_cmp_ui(n, 4) == 0) {
         return false;
     }
     mpz_t result;
