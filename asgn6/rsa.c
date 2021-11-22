@@ -18,6 +18,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_ui_pow_ui(r3, 2, nbits);
     mpz_t mpz_nbits;
     mpz_init_set_ui(mpz_nbits, nbits);
+    mpz_mul(n, p, q);
     while (mpz_cmp(n, r3) > 0 || mpz_cmp(n, r3) == 0) {
         //mpz_fdiv_q_ui(r, mpz_nbits, 2);
         pbits = nbits / 4 + gmp_urandomm_ui(state, nbits / 2);
