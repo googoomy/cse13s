@@ -68,9 +68,13 @@ int main(int argc, char **argv) {
         output_file = fopen(out, "w+");
     }
     if (n_flag == false) {
-        private_key_file = DEFAULT_PRIVKEY_NAME;
+        private_key_file = fopen(DEFAULT_PRIVKEY_NAME, "r");
     } else {
         private_key_file = fopen(privk, "r");
+    }
+    if (private_key_file == NULL) {
+        fprintf(stderr, "error opening private key file\n");
+        return 1;
     }
 
     mpz_t n;
@@ -79,7 +83,7 @@ int main(int argc, char **argv) {
     mpz_init(d);
     rsa_read_priv(n, d, private_key_file);
     if (v_flag) {
-        printf("%Zx\n", n);
+        gmp_printf("%Zx\n", n);
     }
     rsa_decrypt_file(input_file, output_file, n, d);
     fclose(output_file);

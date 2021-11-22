@@ -99,7 +99,27 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
     uint32_t k = (int) ((mpz_sizeinbase(n, 2) - 1) / 8);
     uint8_t *block = (uint8_t *) calloc(k, sizeof(uint8_t));
     block[0] = 0xFF;
-    unsigned char buffer[k - 1];
+    char buffer[100];
+    mpz_t m;
+    mpz_init(m);
+    mpz_t c;
+    mpz_init(c);
+
+    uint32_t i = 1;
+    while (true) {
+        block[i] = fread(buffer, sizeof(uint8_t), k - 1, infile);
+        //block[i] = buffer;
+        mpz_import(m, i, 1, sizeof(block), 1, 0, block);
+        rsa_encrypt(c, m, e, n);
+        gmp_fprintf(outfile, "%Zx\n", c);
+        i += 1;
+        if (feof(infile)) {
+            break;
+        }
+    }
+    mpz_clear(m);
+    mpz_clear(c);
+    free(block);
 }
 
 void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
@@ -107,6 +127,26 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 }
 
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
+    uint32_t k = (int) ((mpz_sizeinbase(n, 2) - 1) / 8);
+    uint8_t *block = (uint8_t *) calloc(k, sizeof(uint8_t));
+    mpz_t c;
+    mpz_init(c);
+    mpz_t m;
+    mpz_init(m);
+    size_t i = 1;
+    while (true) {
+        gmp_fscanf(infile, "%Zx\n", c);
+        mpz_export(block, &i, 1, sizeof(block), 1, 0, c);
+        rsa_decrypt(m, c, d, n);
+        gmp_fprintf(outfile, "%Zx\n", m);
+        i += 1;
+        if (feof(infile)) {
+            break;
+        }
+    }
+    mpz_clear(m);
+    mpz_clear(c);
+    free(block);
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {

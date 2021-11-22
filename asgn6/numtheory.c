@@ -220,6 +220,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
             }
         }
     }
+    mpz_clear(base);
     mpz_clear(result);
     mpz_clear(result2);
     mpz_clear(result3);

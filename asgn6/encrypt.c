@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
             pubk = optarg;
             break;
         case 'v': v_flag = true; break;
-        case 'h': h_flag = true break;
+        case 'h': h_flag = true; break;
         default: return EXIT_FAILURE;
         }
     }
@@ -57,4 +57,49 @@ int main(int argc, char **argv) {
         printf("   -n pbfile       Public key file (default: rsa.pub).\n");
         return 0;
     }
+    if (i_flag == false) {
+        input_file = stdin;
+    } else {
+        input_file = fopen(in, "r");
+    }
+    if (o_flag == false) {
+        output_file = stdout;
+    } else {
+        output_file = fopen(out, "w+");
+    }
+    if (n_flag == false) {
+        public_key_file = fopen(DEFAULT_PUBKEY_NAME, "r");
+    } else {
+        public_key_file = fopen(pubk, "r");
+    }
+    if (public_key_file == NULL) {
+        fprintf(stderr, "error opening file\n");
+        return 1;
+    }
+    mpz_t n;
+    mpz_t e;
+    mpz_t s;
+    char username[100];
+    mpz_init(n);
+    mpz_init(e);
+    mpz_init(s);
+    rsa_read_pub(n, e, s, username, public_key_file);
+    if (v_flag) {
+        printf("%s\n", username);
+        gmp_printf("%Zx\n", s);
+        gmp_printf("%Zx\n", n);
+        gmp_printf("%Zx\n", e);
+    }
+    mpz_t user_name;
+    mpz_init(user_name);
+    mpz_set_str(user_name, username, 62);
+    rsa_verify(user_name, s, e, n);
+    rsa_encrypt_file(input_file, output_file, n, e);
+    fclose(output_file);
+    fclose(input_file);
+    fclose(public_key_file);
+    mpz_clear(user_name);
+    mpz_clear(n);
+    mpz_clear(e);
+    mpz_clear(s);
 }
