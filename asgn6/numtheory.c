@@ -145,7 +145,9 @@ void pow_mod(mpz_t out, mpz_t base, mpz_t exponent, mpz_t modulus) {
 }
 
 //this function conducts the miller-rabin primality test to indicate whether or not n is prime using iters number of miller-rabin iterations.
+//this function's pseudocode was given in the asgn 6 pdf
 bool is_prime(mpz_t n, uint64_t iters) {
+    //manually check when n is 1-4
     if (mpz_cmp_ui(n, 1) == 0) {
         return false;
     }
@@ -158,12 +160,14 @@ bool is_prime(mpz_t n, uint64_t iters) {
     if (mpz_cmp_ui(n, 4) == 0) {
         return false;
     }
+    //initiailize mpz_t's
     mpz_t result;
     mpz_t result2;
     mpz_t result3;
     mpz_init(result3);
     mpz_init(result2);
     mpz_init(result);
+    //if n is even return false because evens except 2 arent prime
     mpz_mod_ui(result, n, 2);
     if (mpz_cmp_ui(n, 2) == 0 || mpz_cmp_ui(result, 0) == 0) {
         mpz_clear(result);
@@ -171,6 +175,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
         mpz_clear(result3);
         return false;
     }
+    //more intializing
     mpz_t r;
     mpz_init(r);
     mpz_sub_ui(r, n, 1);
@@ -181,6 +186,8 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_set_ui(result, 2);
     mpz_t base;
     mpz_init_set_ui(base, 2);
+    //try to find the correct value for s and r such that n-1=2^s*r such that r is odd
+    //came up with this through TA Eugene's explanations in section
     while (true) {
         mpz_pow_ui(result2, base, int_s);
         mpz_mul(result3, result2, r);
@@ -195,28 +202,37 @@ bool is_prime(mpz_t n, uint64_t iters) {
         int_s += 1;
     }
     bool return_bool = true;
+    //for i = 1 to k
     for (uint64_t i = 1; i < iters; i += 1) {
+        //initialization for random a
         mpz_t n_rand;
         mpz_init(n_rand);
         mpz_sub_ui(n_rand, n, 4);
         mpz_t a;
         mpz_init(a);
+        //choose a random value 2 to n-2
         mpz_urandomm(result, state, n_rand);
         mpz_set(a, result);
         mpz_add_ui(result, a, 2);
         mpz_set(a, result);
         mpz_t y;
+        //y = power mod(a, r, n)
         pow_mod(y, a, r, n);
         mpz_sub_ui(result, n, 1);
+        //if y != 1 and y != n-1
         if ((mpz_cmp_ui(y, 1) < 0 || mpz_cmp_ui(y, 1) > 0)
             && (mpz_cmp(y, result) < 0 || mpz_cmp(y, result) > 0)) {
+            //j = 1
             mpz_t j;
             mpz_init_set_ui(j, 1);
             mpz_sub_ui(result2, s, 1);
+            //while j <=s-1 and y != n-1
             while ((mpz_cmp(j, result2) < 0 || mpz_cmp(j, result2) == 0)
                    && (mpz_cmp(y, result) < 0 || mpz_cmp(y, result) > 0)) {
+                //y = power mod(y, 2, n)
                 pow_mod(result3, y, base, n);
                 mpz_set(y, result3);
+                //if y == 1 return false
                 if (mpz_cmp_ui(y, 1) == 0) {
                     return_bool = false;
                     mpz_clear(j);
@@ -228,11 +244,13 @@ bool is_prime(mpz_t n, uint64_t iters) {
                 mpz_add_ui(result3, j, 1);
                 mpz_set(j, result3);
             }
+            //if y != n-1
             if (mpz_cmp(y, result) < 0 || mpz_cmp(y, result) > 0) {
                 return_bool = false;
             }
         }
     }
+    //clear mpz_t's
     mpz_clear(base);
     mpz_clear(result);
     mpz_clear(result2);
@@ -245,20 +263,25 @@ bool is_prime(mpz_t n, uint64_t iters) {
 //this function generates a new prime number stored in p. the generated prime should be at least bits number of bits long.
 //the primality of the generated number should be tested using is_prime() with iters iterations
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
+    //initialization of mpz_t's
     mpz_t prime;
     mpz_init(prime);
     //while(!is_prime(prime, iters) || mpz_cmp_ui(prime, bits) < 0){
+
     while (true) {
         mpz_t r;
         mpz_init(r);
+        //random number
         mpz_urandomb(r, state, bits);
         mpz_set(prime, r);
+        //if prime break
         if (is_prime(prime, iters) && mpz_cmp_ui(prime, bits) > 0) {
             mpz_clear(r);
             break;
         }
     }
     mpz_set(p, prime);
+    //clar mem
     mpz_clear(prime);
     return;
 }

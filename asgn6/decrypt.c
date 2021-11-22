@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+//these defines were given by TA Christian
 #define DEFAULT_PRIVKEY_NAME "rsa.priv"
 #define OPTIONS              "i:o:n:vh"
 
@@ -12,6 +13,7 @@ static FILE *input_file = NULL;
 static FILE *output_file = NULL;
 static FILE *private_key_file = NULL;
 
+//pseduocode for decrypt was given in the asgn6 pdf
 int main(int argc, char **argv) {
     int opt = 0;
     bool no_input_flag = true;
@@ -23,6 +25,7 @@ int main(int argc, char **argv) {
     char *in = NULL;
     char *out = NULL;
     char *privk = NULL;
+    //parse command-line options using getopt()
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         no_input_flag = false;
         switch (opt) {
@@ -43,6 +46,7 @@ int main(int argc, char **argv) {
         default: return EXIT_FAILURE;
         }
     }
+    //if no input of -h print out the documentation
     if (h_flag == true || no_input_flag == true) {
         printf("SYNOPSIS\n");
         printf("   Decrypts data using RSA decryption.\n");
@@ -57,6 +61,7 @@ int main(int argc, char **argv) {
         printf("   -n pvfile       Private key file (default: rsa.priv).\n");
         return 0;
     }
+    //open the files. input is stdin and out put is stdout by default
     if (i_flag == false) {
         input_file = stdin;
     } else {
@@ -72,20 +77,24 @@ int main(int argc, char **argv) {
     } else {
         private_key_file = fopen(privk, "r");
     }
+    //return an error if the file doesnt work
     if (private_key_file == NULL) {
         fprintf(stderr, "error opening private key file\n");
         return 1;
     }
-
+    //intiialization
     mpz_t n;
     mpz_t d;
     mpz_init(n);
     mpz_init(d);
     rsa_read_priv(n, d, private_key_file);
+    //if verbose output is enabled print
     if (v_flag) {
         gmp_printf("%Zx\n", n);
     }
+    //decrypt the file
     rsa_decrypt_file(input_file, output_file, n, d);
+    //close files and clear
     fclose(output_file);
     fclose(input_file);
     fclose(private_key_file);
