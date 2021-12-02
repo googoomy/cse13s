@@ -23,6 +23,7 @@ BitVector *bv_create(uint32_t length){
 	//trying to do ceiling of length/8 but without importing math.h
 	uint32_t ceiling_of_vector_size = (length + 8 - 1)/8;
 	uint8_t (bv->vector)[ceiling_of_vector_size] = {0};
+	return *bv;
 }
 
 void bv_print(BitVector *bv){
