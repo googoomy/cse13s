@@ -1,11 +1,13 @@
 #include "bf.h"
 #include "bv.h"
+#include "speck.h"
 #include "salts.h"
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+//global for bf_count()
 static uint32_t count = 0;
 
 //the following struct defines the BloomFilter ADT
@@ -50,24 +52,34 @@ uint32_t bf_size(BloomFilter *bf){
 //This function takes oldspeak and insertes it into the Bloom filter.
 void bf_insert(BloomFilter *bf, char *oldspeak){
 	uint32_t bit;
-	bit = hash(primary, oldspeak);
+	bit = hash(bf->primary, oldspeak);
+	//if the bit is already 1 then dont increase the count
+	if(!bv_get_bit(bf->filter, bit)){
+		count += 1;	
+	}
+	//set the bit to 1
 	bv_set_bit(bf->filter, bit);
-	bit = hash(secondary, oldspeak);
+	bit = hash(bf->secondary, oldspeak);
+	if(!bv_get_bit(bf->filter, bit)){
+		count += 1;
+	}
 	bv_set_bit(bf->filter, bit);
-	bit = hash(tertiary, oldspeak);
+	bit = hash(bf->tertiary, oldspeak);
+	if(!bv_get_bit(bf->filter, bit)){
+		count += 1;
+	}
 	bv_set_bit(bf->filter, bit);
-	count += 1;
 }
 
 //This function probes the Bloom Filter for oldspeak. If all bits at the indices are set, return true, else return false.
 bool bf_probe(BloomFilter *bf, char *oldspeak){
 	uint32_t bit;
 	bool all_three_set = false;
-	bit = hash(primary, oldspeak);
+	bit = hash(bf->primary, oldspeak);
 	bool is_primary_set = bv_get_bit(bf->filter, bit);
-	bit = hash(secondary, oldspeak);
+	bit = hash(bf->secondary, oldspeak);
 	bool is_secondary_set = bv_get_bit(bf->filter, bit);
-	bit = hash(tertiary, oldspeak);
+	bit = hash(bf->tertiary, oldspeak);
 	bool is_tertiary_set = bv_get_bit(bf->filter, bit);
 	if(is_primary_set == true && is_secondary_set == true && is_tertiary_set == true){
 		all_three_set = true;
