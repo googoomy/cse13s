@@ -13,11 +13,11 @@ Node *bst_create(void){
 //This function is the deconstructor for bst
 ////This implementation is based off of the pseudocode provided by TA Christian
 void bst_delete(Node **root){
-	if(*root->left != NULL){
-		bst_delete(*root->left);
+	if((*root)->left != NULL){
+		bst_delete((*root)->left);
 	}
-	if(*root->right != NULL){
-		bst_delete(*root->right);
+	if((*root)->right != NULL){
+		bst_delete((*root)->right);
 	}
 	node_delete(*root);
 }

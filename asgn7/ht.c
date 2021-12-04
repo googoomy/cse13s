@@ -45,9 +45,9 @@ void ht_print(HashTable *ht){
 
 //This function is the destructor for a hash table. 
 void ht_delete(HashTable **ht){
-	if(ht->trees != NULL){
-		for(uint32_t i = 0; i < ht->size; i += 1){
-			node_delete(*ht->*trees[i]);
+	if((*ht)->trees != NULL){
+		for(uint32_t i = 0; i < (*ht)->size; i += 1){
+			node_delete((*ht)->trees[i]);
 		}
 	}
 	free(*ht);
