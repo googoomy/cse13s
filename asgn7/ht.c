@@ -4,13 +4,12 @@
 #include "salts.h"
 #include "speck.h"
 #include <inttypes.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 static uint32_t count = 0;
-static uint32_t height_sum = 0;
-static uint32_t size_sum = 0;
+//static uint32_t height_sum = 0;
+//static uint32_t size_sum = 0;
 //the following struct defines the HashTable ADT
 //this was given in the assignment 7 pdf
 struct HashTable {
@@ -74,8 +73,8 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak){
 	index = hash(salt, oldspeak) % ht->size;
 	ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
 	count += 1;
-	height_sum += bst_height(ht->trees[index]);
-	size_sum += bst_height(ht->trees[index]);
+	//height_sum += bst_height(ht->trees[index]);
+	//size_sum += bst_height(ht->trees[index]);
 	
 }
 
@@ -86,12 +85,14 @@ uint32_t ht_count(HashTable *ht){
 
 //This function returns the average binary search tree size which is the sum of the sizes of all bst's divided by the hash table count
 double ht_avg_bst_size(HashTable *ht){
-	return (double)(size_sum/ht_count(ht));
+	return (double)(bst_size(ht->tree[0])/ht_count(ht));
+	//return (double)(size_sum/ht_count(ht));
 }
 
 //This function returns the average binary search tree height which is the sum of the heights of all bst's divided by the hash table count 
 double ht_avg_bst_height(HashTable *ht){
-	return (double)(height_sum/ht_count(ht));
+	return (double) (bst_height(ht->tree[0])/ht_count(ht));
+	//return (double)(height_sum/ht_count(ht));
 }
 
 
