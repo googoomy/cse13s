@@ -75,8 +75,9 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
 
 //This function probes the Bloom Filter for oldspeak. If all bits at the indices are set, return true, else return false.
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
+    /*
     uint32_t bit;
-    bool all_three_set = false;
+    //bool all_three_set = false;
     bit = hash(bf->primary, oldspeak) % bf_size(bf);
     bool is_primary_set = bv_get_bit(bf->filter, bit);
     bit = hash(bf->secondary, oldspeak) % bf_size(bf);
@@ -84,9 +85,26 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
     bool is_tertiary_set = bv_get_bit(bf->filter, bit);
     if (is_primary_set == true && is_secondary_set == true && is_tertiary_set == true) {
-        all_three_set = true;
+        //all_three_set = true;
+    	return true;
     }
-    return all_three_set;
+    return false;
+    //return all_three_set;
+    */
+    uint32_t bit;
+    bit = hash(bf->primary, oldspeak);
+    if (!bv_get_bit(bf->filter, bit)) {
+        return false;
+    }
+    bit = hash(bf->secondary, oldspeak);
+    if (!bv_get_bit(bf->filter, bit)) {
+        return false;
+    }
+    bit = hash(bf->tertiary, oldspeak);
+    if (!bv_get_bit(bf->filter, bit)) {
+        return false;
+    }
+    return true;
 }
 
 //This function returns the number of set bits in the Bloom filter.
