@@ -91,6 +91,7 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     return false;
     //return all_three_set;
     */
+    /*
     uint32_t bit;
     bit = hash(bf->primary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
@@ -105,6 +106,15 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
         return false;
     }
     return true;
+    */
+    uint32_t index1 = hash(bf->primary, oldspeak) % bf_size(bf);
+    uint32_t index2 = hash(bf->secondary, oldspeak) % bf_size(bf);
+    uint32_t index3 = hash(bf->tertiary, oldspeak) % bf_size(bf);
+    if (bv_get_bit(bf->filter, index1) == true && bv_get_bit(bf->filter, index2) == true
+        && bv_get_bit(bf->filter, index3) == true) {
+        return true;
+    }
+    return false;
 }
 
 //This function returns the number of set bits in the Bloom filter.
