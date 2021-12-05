@@ -77,11 +77,11 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
     uint32_t bit;
     bool all_three_set = false;
-    bit = hash(bf->primary, oldspeak);
+    bit = hash(bf->primary, oldspeak) % bf_size(bf);
     bool is_primary_set = bv_get_bit(bf->filter, bit);
-    bit = hash(bf->secondary, oldspeak);
+    bit = hash(bf->secondary, oldspeak) % bf_size(bf);
     bool is_secondary_set = bv_get_bit(bf->filter, bit);
-    bit = hash(bf->tertiary, oldspeak);
+    bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
     bool is_tertiary_set = bv_get_bit(bf->filter, bit);
     if (is_primary_set == true && is_secondary_set == true && is_tertiary_set == true) {
         all_three_set = true;
