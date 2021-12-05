@@ -14,12 +14,12 @@ Node *bst_create(void) {
 ////This implementation is based off of the pseudocode provided by TA Christian
 void bst_delete(Node **root) {
     if ((*root)->left != NULL) {
-        bst_delete((*root)->left);
+        bst_delete(&(*root)->left);
     }
     if ((*root)->right != NULL) {
-        bst_delete((*root)->right);
+        bst_delete(&(*root)->right);
     }
-    node_delete(*root);
+    node_delete(root);
 }
 
 //This function returns the height of the binary search tree rooted at root.
@@ -57,9 +57,9 @@ Node *bst_find(Node *root, char *oldspeak) {
         return NULL;
     }
     if (strcmp(root->oldspeak, oldspeak) > 0) {
-        bst_find(root->left, oldspeak);
+        return bst_find(root->left, oldspeak);
     } else if (strcmp(root->oldspeak, oldspeak) < 0) {
-        bst_find(root->right, oldspeak);
+        return bst_find(root->right, oldspeak);
     } else {
         return root;
     }
@@ -72,13 +72,20 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
         return node_create(oldspeak, newspeak);
     }
     if (strcmp(root->oldspeak, oldspeak) > 0) {
-        root->left = bst_insert(root->left, oldspeak, newspeak);
+        return root->left = bst_insert(root->left, oldspeak, newspeak);
     } else if (strcmp(root->oldspeak, oldspeak) < 0) {
-        root->right = bst_insert(root->right, oldspeak, newspeak);
+        return root->right = bst_insert(root->right, oldspeak, newspeak);
     } else {
         return root;
     }
 }
 
+//This function prints out the bst
+//This implementation is based off of the inorder_print() from page 8 of the Lecture 18 Slides
 void bst_print(Node *root) {
+    if (root) {
+        bst_print(root->left);
+        node_print(root);
+        bst_print(root->right);
+    }
 }

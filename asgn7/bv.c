@@ -22,8 +22,8 @@ BitVector *bv_create(uint32_t length) {
     bv->length = length;
     //trying to do ceiling of length/8 but without importing math.h
     uint32_t ceiling_of_vector_size = (length + 8 - 1) / 8;
-    uint8_t(bv->vector)[ceiling_of_vector_size] = { 0 };
-    return *bv;
+    bv->vector[ceiling_of_vector_size] = { 0 };
+    return bv;
 }
 
 void bv_print(BitVector *bv) {
@@ -48,7 +48,7 @@ uint32_t bv_length(BitVector *bv) {
 //This function sets the ith bit in the bit vector to 1. It returns trrue if it was successful and false if not.
 //This function is based off of my code_set_bit function in code.c in assignment 5
 bool bv_set_bit(BitVector *bv, uint32_t i) {
-    if (i < length) {
+    if (i < bv_length(bv)) {
         bv->vector[i / 8] = 1;
         return true;
     }
@@ -58,7 +58,7 @@ bool bv_set_bit(BitVector *bv, uint32_t i) {
 //this function clears the ith bit in the bit vector to 0. It returns true if it was successful and false if not.
 //This function is based off of my code_clr_bit function in code.c in assignment 5
 bool bv_clr_bit(BitVector *bv, uint32_t i) {
-    if (i < length) {
+    if (i < bv_length(bv)) {
         bv->vector[i / 8] = 0;
         return true;
     }
@@ -67,7 +67,7 @@ bool bv_clr_bit(BitVector *bv, uint32_t i) {
 
 //This function returns the ith bit in the bit vector. if the ith bit is out of range or 0 return false. If the ith bit is 1 return true.
 bool bv_get_bit(BitVector *bv, uint32_t i) {
-    if (i < length) {
+    if (i < bv_length(bv)) {
         if (bv->vector[i / 8] == 0) {
             return false;
         }

@@ -32,7 +32,7 @@ void node_delete(Node **n) {
             free((*n)->newspeak);
         }
         free(*n);
-        *n = NULL
+        *n = NULL;
     }
 }
 
