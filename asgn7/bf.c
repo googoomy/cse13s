@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 //global for bf_count()
-static uint32_t count = 0;
+//static uint32_t count = 0;
 
 //the following struct defines the BloomFilter ADT
 //this was given in the assignment 7 pdf
@@ -20,12 +20,14 @@ struct BloomFilter {
     //Tertiary hash function salt.
     uint64_t tertiary[2];
     BitVector *filter;
+    uint32_t count;
 };
 
 //The constructor for a Bloom Filter. The primary, secondary, and tertiary salts that should be used are provided in salts.h
 BloomFilter *bf_create(uint32_t size) {
     BloomFilter *bf = (BloomFilter *) malloc(sizeof(BloomFilter));
     bf->filter = bv_create(size);
+    bf->count = 0;
     bf->primary[0] = SALT_PRIMARY_LO;
     bf->primary[1] = SALT_PRIMARY_HI;
     bf->secondary[0] = SALT_SECONDARY_LO;
@@ -38,7 +40,7 @@ BloomFilter *bf_create(uint32_t size) {
 //The destructor for a Bloom Filter.
 void bf_delete(BloomFilter **bf) {
     if (*bf && (*bf)->filter) {
-        bv_delete((*bf)->filter);
+        bv_delete(&(*bf)->filter);
         free(*bf);
         *bf = NULL;
     }
@@ -55,18 +57,18 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
     bit = hash(bf->primary, oldspeak);
     //if the bit is already 1 then dont increase the count
     if (!bv_get_bit(bf->filter, bit)) {
-        count += 1;
+        bf->count += 1;
     }
     //set the bit to 1
     bv_set_bit(bf->filter, bit);
     bit = hash(bf->secondary, oldspeak);
     if (!bv_get_bit(bf->filter, bit)) {
-        count += 1;
+        bf->count += 1;
     }
     bv_set_bit(bf->filter, bit);
     bit = hash(bf->tertiary, oldspeak);
     if (!bv_get_bit(bf->filter, bit)) {
-        count += 1;
+        bf->count += 1;
     }
     bv_set_bit(bf->filter, bit);
 }
@@ -89,7 +91,7 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
 
 //This function returns the number of set bits in the Bloom filter.
 uint32_t bf_count(BloomFilter *bf) {
-    return count;
+    return bf->count;
 }
 
-void bf_print(BLoomFilter *bf);
+void bf_print(BloomFilter *bf);
