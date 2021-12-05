@@ -92,15 +92,15 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     //return all_three_set;
     */
     uint32_t bit;
-    bit = hash(bf->primary, oldspeak);
+    bit = hash(bf->primary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
         return false;
     }
-    bit = hash(bf->secondary, oldspeak);
+    bit = hash(bf->secondary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
         return false;
     }
-    bit = hash(bf->tertiary, oldspeak);
+    bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
         return false;
     }
