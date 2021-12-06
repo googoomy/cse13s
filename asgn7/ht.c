@@ -75,13 +75,19 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     uint32_t index;
     index = hash(ht->salt, oldspeak) % ht->hsize;
     ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
-    ht->count += 1;
+    //ht->count += 1;
     //height_sum += bst_height(ht->trees[index]);
     //size_sum += bst_height(ht->trees[index]);
 }
 
 //This function returns the number of non NULL binary search trees in the hash table
 uint32_t ht_count(HashTable *ht) {
+    //return ht->count;
+    for (uint32_t i = 0; i < ht_size(ht); i += 1) {
+        if (ht->trees[i] != NULL) {
+            ht->count += 1;
+        }
+    }
     return ht->count;
 }
 
