@@ -8,11 +8,7 @@
 #include <stdlib.h>
 
 uint64_t lookups;
-//static uint32_t count = 0;
-//static uint32_t height_sum = 0;
-//static uint32_t size_sum = 0;
-//the following struct defines the HashTable ADT
-//this was given in the assignment 7 pdf
+
 struct HashTable {
     uint64_t salt[2];
     uint32_t hsize;
@@ -48,13 +44,11 @@ void ht_print(HashTable *ht) {
 
 //This function is the destructor for a hash table.
 void ht_delete(HashTable **ht) {
-    //if ((*ht)->trees != NULL) {
     for (uint32_t i = 0; i < (*ht)->count; i += 1) {
         if (&(*ht)->trees[i] != NULL) {
             bst_delete(&(*ht)->trees[i]);
         }
     }
-    //}
     free((*ht)->trees);
     (*ht)->trees = NULL;
     free(*ht);
@@ -79,14 +73,10 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     uint32_t index;
     index = hash(ht->salt, oldspeak) % ht->hsize;
     ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
-    //ht->count += 1;
-    //height_sum += bst_height(ht->trees[index]);
-    //size_sum += bst_height(ht->trees[index]);
 }
 
 //This function returns the number of non NULL binary search trees in the hash table
 uint32_t ht_count(HashTable *ht) {
-    //return ht->count;
     for (uint32_t i = 0; i < ht_size(ht); i += 1) {
         if (ht->trees[i] != NULL) {
             ht->count += 1;
@@ -98,11 +88,9 @@ uint32_t ht_count(HashTable *ht) {
 //This function returns the average binary search tree size which is the sum of the sizes of all bst's divided by the hash table count
 double ht_avg_bst_size(HashTable *ht) {
     return (double) (bst_size(ht->trees[0]) / ht_count(ht));
-    //return (double)(size_sum/ht_count(ht));
 }
 
 //This function returns the average binary search tree height which is the sum of the heights of all bst's divided by the hash table count
 double ht_avg_bst_height(HashTable *ht) {
     return (double) (bst_height(ht->trees[0]) / ht_count(ht));
-    //return (double)(height_sum/ht_count(ht));
 }

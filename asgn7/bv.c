@@ -20,8 +20,7 @@ BitVector *bv_create(uint32_t length) {
         return NULL;
     }
     bv->length = length;
-    //trying to do ceiling of length/8 but without importing math.h
-    //uint32_t ceiling_of_vector_size = (length + 8 - 1) / 8;
+    //this vector initilization is from TA Christian
     bv->vector = calloc(1, (length % 8 == 0) ? (length / 8) : ((length / 8) + 1));
     return bv;
 }

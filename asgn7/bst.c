@@ -35,7 +35,6 @@ uint32_t bst_height(Node *root) {
         } else {
             return bst_height(root->left) + 1;
         }
-        //height += 1;
     }
     return height;
 }

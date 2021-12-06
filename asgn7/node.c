@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//static char *old_copy;
-//static char *new_copy;
 //This function is the constructor for node
 Node *node_create(char *oldspeak, char *newspeak) {
     Node *n = (Node *) malloc(sizeof(Node));
@@ -36,6 +34,7 @@ void node_delete(Node **n) {
     }
 }
 
+//This function prints out the node
 void node_print(Node *n) {
     if (n->oldspeak != NULL && n->newspeak != NULL) {
         printf("%s -> %s\n", n->oldspeak, n->newspeak);

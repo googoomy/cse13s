@@ -7,9 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//global for bf_count()
-//static uint32_t count = 0;
-
 //the following struct defines the BloomFilter ADT
 //this was given in the assignment 7 pdf
 struct BloomFilter {
@@ -74,39 +71,8 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
 }
 
 //This function probes the Bloom Filter for oldspeak. If all bits at the indices are set, return true, else return false.
+//This implementation is based off of TA Eugene's pseudocode
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
-    /*
-    uint32_t bit;
-    //bool all_three_set = false;
-    bit = hash(bf->primary, oldspeak) % bf_size(bf);
-    bool is_primary_set = bv_get_bit(bf->filter, bit);
-    bit = hash(bf->secondary, oldspeak) % bf_size(bf);
-    bool is_secondary_set = bv_get_bit(bf->filter, bit);
-    bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
-    bool is_tertiary_set = bv_get_bit(bf->filter, bit);
-    if (is_primary_set == true && is_secondary_set == true && is_tertiary_set == true) {
-        //all_three_set = true;
-    	return true;
-    }
-    return false;
-    //return all_three_set;
-    */
-    /*
-    uint32_t bit;
-    bit = hash(bf->primary, oldspeak) % bf_size(bf);
-    if (!bv_get_bit(bf->filter, bit)) {
-        return false;
-    }
-    bit = hash(bf->secondary, oldspeak) % bf_size(bf);
-    if (!bv_get_bit(bf->filter, bit)) {
-        return false;
-    }
-    bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
-    if (!bv_get_bit(bf->filter, bit)) {
-        return false;
-    }
-    return true;
-    */
     uint32_t index1 = hash(bf->primary, oldspeak) % bf_size(bf);
     uint32_t index2 = hash(bf->secondary, oldspeak) % bf_size(bf);
     uint32_t index3 = hash(bf->tertiary, oldspeak) % bf_size(bf);
@@ -122,4 +88,7 @@ uint32_t bf_count(BloomFilter *bf) {
     return bf->count;
 }
 
-void bf_print(BloomFilter *bf);
+//This function prints out the bloomfilter
+void bf_print(BloomFilter *bf) {
+    bv_print(bf->filter);
+}
