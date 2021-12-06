@@ -57,6 +57,7 @@ void ht_delete(HashTable **ht) {
             }
         }
         free((*ht)->trees);
+        (*ht)->trees = NULL;
         free(*ht);
         *ht = NULL;
     }
