@@ -50,7 +50,9 @@ void ht_print(HashTable *ht) {
 void ht_delete(HashTable **ht) {
     if ((*ht)->trees != NULL) {
         for (uint32_t i = 0; i < (*ht)->hsize; i += 1) {
-            node_delete(&(*ht)->trees[i]);
+            if (&(*ht)->trees[i] != NULL) {
+                node_delete(&(*ht)->trees[i]);
+            }
         }
     }
     free(*ht);
