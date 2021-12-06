@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+uint64_t branches;
 //This function is the constructor for bst
 Node *bst_create(void) {
     return NULL;

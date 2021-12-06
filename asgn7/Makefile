@@ -5,8 +5,8 @@ OBJECT_FILES = ht.o bst.o node.o bv.o bf.o parser.o speck.o
 
 all: banhammer
 
-banhammer: $(OBJECT_FILES)
-	$(CC) $(LFLAGS) -o tsp $(OBJECT_FILES)
+banhammer: $(OBJECT_FILES) banhammer.o
+	$(CC) $(LFLAGS) -o banhammer $(OBJECT_FILES) banhammer.o
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<

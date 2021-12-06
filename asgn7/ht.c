@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+uint64_t lookups;
 //static uint32_t count = 0;
 //static uint32_t height_sum = 0;
 //static uint32_t size_sum = 0;
@@ -14,7 +15,7 @@
 //this was given in the assignment 7 pdf
 struct HashTable {
     uint64_t salt[2];
-    uint32_t size;
+    uint32_t hsize;
     Node **trees;
     uint32_t count;
 };
@@ -25,7 +26,7 @@ HashTable *ht_create(uint32_t size) {
     HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
     if (ht) {
         ht->count = 0;
-        ht->size = size;
+        ht->hsize = size;
         ht->salt[0] = SALT_HASHTABLE_LO;
         ht->salt[1] = SALT_HASHTABLE_HI;
         ht->trees = (Node **) malloc(size * sizeof(Node *));
@@ -48,7 +49,7 @@ void ht_print(HashTable *ht) {
 //This function is the destructor for a hash table.
 void ht_delete(HashTable **ht) {
     if ((*ht)->trees != NULL) {
-        for (uint32_t i = 0; i < (*ht)->size; i += 1) {
+        for (uint32_t i = 0; i < (*ht)->hsize; i += 1) {
             node_delete(&(*ht)->trees[i]);
         }
     }
@@ -58,21 +59,21 @@ void ht_delete(HashTable **ht) {
 
 //This function returns the hash table's size
 uint32_t ht_size(HashTable *ht) {
-    return ht->size;
+    return ht->hsize;
 }
 
 //This function searches for a node in the hash table that contains oldspeak.
 //If the node is found, the pointer to the node is returned else return NULL
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
     uint32_t bit;
-    bit = hash(ht->salt, oldspeak) % ht->size;
+    bit = hash(ht->salt, oldspeak) % ht->hsize;
     return bst_find(ht->trees[bit], oldspeak);
 }
 
 //This function inserts the specified oldspeak and its newspeak traslation into the hash table.
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     uint32_t index;
-    index = hash(ht->salt, oldspeak) % ht->size;
+    index = hash(ht->salt, oldspeak) % ht->hsize;
     ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
     ht->count += 1;
     //height_sum += bst_height(ht->trees[index]);
