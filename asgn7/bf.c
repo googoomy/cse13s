@@ -51,19 +51,19 @@ uint32_t bf_size(BloomFilter *bf) {
 //This function takes oldspeak and insertes it into the Bloom filter.
 void bf_insert(BloomFilter *bf, char *oldspeak) {
     uint32_t bit;
-    bit = hash(bf->primary, oldspeak);
+    bit = hash(bf->primary, oldspeak) % bf_size(bf);
     //if the bit is already 1 then dont increase the count
     if (!bv_get_bit(bf->filter, bit)) {
         bf->count += 1;
     }
     //set the bit to 1
     bv_set_bit(bf->filter, bit);
-    bit = hash(bf->secondary, oldspeak);
+    bit = hash(bf->secondary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
         bf->count += 1;
     }
     bv_set_bit(bf->filter, bit);
-    bit = hash(bf->tertiary, oldspeak);
+    bit = hash(bf->tertiary, oldspeak) % bf_size(bf);
     if (!bv_get_bit(bf->filter, bit)) {
         bf->count += 1;
     }
