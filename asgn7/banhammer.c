@@ -137,13 +137,13 @@ int main(int argc, char **argv) {
         printf("%s", badspeak_message);
         bst_print(thoughtcrime_bst);
     }
-    /*
+
     //goodspeak
     if (thoughtcrime_bst == NULL && rightspeak_bst != NULL) {
         printf("%s", goodspeak_message);
         bst_print(rightspeak_bst);
     }
-    */
+
     //clear and free
     bst_delete(&thoughtcrime_bst);
     bst_delete(&rightspeak_bst);
