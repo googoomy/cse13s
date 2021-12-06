@@ -48,15 +48,17 @@ void ht_print(HashTable *ht) {
 
 //This function is the destructor for a hash table.
 void ht_delete(HashTable **ht) {
-    if ((*ht)->trees != NULL) {
-        for (uint32_t i = 0; i < (*ht)->hsize; i += 1) {
-            if (&(*ht)->trees[i] != NULL) {
-                node_delete(&(*ht)->trees[i]);
+    if (*ht) {
+        if ((*ht)->trees != NULL) {
+            for (uint32_t i = 0; i < (*ht)->hsize; i += 1) {
+                if (&(*ht)->trees[i] != NULL) {
+                    node_delete(&(*ht)->trees[i]);
+                }
             }
         }
+        free(*ht);
+        *ht = NULL;
     }
-    free(*ht);
-    *ht = NULL;
 }
 
 //This function returns the hash table's size
