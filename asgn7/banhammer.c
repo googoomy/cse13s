@@ -76,15 +76,15 @@ int main(int argc, char **argv) {
     newspeak_file = fopen(newspeak, "r");
     //char buffer[1024];
     while (!feof(badspeak_file)) {
-        char *curr_badspeak = NULL;
+        char *curr_badspeak = "";
         fscanf(badspeak_file, "%s\n", curr_badspeak);
         bf_insert(bloom, curr_badspeak);
         ht_insert(hasht, curr_badspeak, NULL);
     }
     //Read in a list of oldspeak and newspeak pairs with scanf()
     while (!feof(newspeak_file)) {
-        char *curr_oldspeak = NULL;
-        char *curr_newspeak = NULL;
+        char *curr_oldspeak = "";
+        char *curr_newspeak = "";
         fscanf(newspeak_file, "%s %s\n", curr_oldspeak, curr_newspeak);
         bf_insert(bloom, curr_oldspeak);
         ht_insert(hasht, curr_oldspeak, curr_newspeak);
@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to compile regex.\n");
         return 1;
     }
-    char *word = NULL;
+    char *word;
     while ((word = next_word(stdin, &re)) != NULL) {
         //read in the  words
         if (bf_probe(bloom, word) == true) {
@@ -120,11 +120,11 @@ int main(int argc, char **argv) {
     //uint32_t bbfsize = bf_size(bloom);
     //uint32_t hhtsize = ht_size(hasht);
     if (s_flag) {
-        fprintf(stdout, "Average BST size: %16.6lf", ht_avg_bst_size(hasht));
-        fprintf(stdout, "Average BST height: %16.6lf", ht_avg_bst_height(hasht));
-        fprintf(stdout, "Average branches traversed: %16.6lf", (double) (branches / lookups));
-        //fprintf("Hash Table load: %16.6lf", (double) (100 * (ht_count(hasht) / hhtsize)));
-        //fprintf("Bloom Filter load: %16.6lf", (double) (100 * (bf_count(bloom) / bbfsize)));
+        fprintf(stdout, "Average BST size: %.6lf", ht_avg_bst_size(hasht));
+        fprintf(stdout, "Average BST height: %.6lf", ht_avg_bst_height(hasht));
+        fprintf(stdout, "Average branches traversed: %.6lf", (double) (branches / lookups));
+        //fprintf(stdout, "Hash table load: %.6lf", (double) (100 * (ht_count(hasht) / hhtsize)));
+        //fprintf(stdout, "Bloom filter load: %.6lf", (double) (100 * (bf_count(bloom) / bbfsize)));
     }
     //mixspeak
     if (thoughtcrime_bst != NULL && rightspeak_bst != NULL) {
@@ -151,4 +151,6 @@ int main(int argc, char **argv) {
     ht_delete(&hasht);
     clear_words();
     regfree(&re);
+    fclose(badspeak_file);
+    fclose(newspeak_file);
 }
