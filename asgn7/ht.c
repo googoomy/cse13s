@@ -52,10 +52,11 @@ void ht_delete(HashTable **ht) {
         if ((*ht)->trees != NULL) {
             for (uint32_t i = 0; i < (*ht)->hsize; i += 1) {
                 if (&(*ht)->trees[i] != NULL) {
-                    node_delete(&(*ht)->trees[i]);
+                    bst_delete(&(*ht)->trees[i]);
                 }
             }
         }
+        free((*ht)->trees);
         free(*ht);
         *ht = NULL;
     }
