@@ -1,0 +1,7 @@
+#James Gu
+#jjgu
+#Fall2021
+#Assignment 7: The Great Firewall of Santa Cruz: Bloom Filters, Linked Lists, Binaryes and Hash Tables
+##DESCRIPTION OF PROGRAM: You have been selected to be the Dear and Beloved Leader of the Glorious People’s Republic of Santa Cruz. As the new leader your goal is to censor and filter Internet content as to avoid corrupting young children’s minds. This project involves censoring “badthink” and replacing “oldspeak” with newspeak. This will be done using a Bloom filter, hash tables, and binary trees. These are very prevalent computer science concepts that we will be practicing in this assignment.
+###BUILD FOR PROGRAM: banhammer.c, messages.h, salts.h, speck.h, speck.c, ht.h, ht.c, bst.h, bst.c, node.h, node.c, bf.h, bf.c, bv.h, bv.c, parser.h, parser.c, Makefile, README.md, DESIGN.pdf, WRITEUP.pdf
+####USER GUIDE: The first step to use this program is to use the command make. make all can also be used and these commands will make all the necessary programs. After make the user should input ./banhammer and then they have a couple command line options that include -h, -t size, -f size, -s. -h outputs the user manual that gives a description of the program, displays the usage, and lists the command line options. -t size specifies the hash table size and -f size specifies the bloom filter size. -s enable the statistics to be outputted. Depending on what the user inputs next their words might get censored based on what words are and aren't okay to use.
