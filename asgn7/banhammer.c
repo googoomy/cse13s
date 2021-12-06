@@ -25,12 +25,12 @@
 
 static FILE *badspeak_file;
 static FILE *newspeak_file;
+//initialize externs
 uint64_t lookups = 0;
 uint64_t branches = 0;
 
 int main(int argc, char **argv) {
     int opt = 0;
-    bool no_input_flag = true;
     bool h_flag = false;
     bool t_flag = false;
     bool f_flag = false;
@@ -41,7 +41,6 @@ int main(int argc, char **argv) {
     uint32_t bf_size = BLOOM_FILTER_DEFAULT_SIZE;
 
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
-        no_input_flag = false;
         switch (opt) {
         case 't':
             t_flag = true;
@@ -55,8 +54,8 @@ int main(int argc, char **argv) {
         case 'h': h_flag = true; break;
         }
     }
-
-    if (h_flag || no_input_flag) {
+    //if help is initiated
+    if (h_flag) {
         printf("SYNOPSIS\n");
         printf("  A word filtering program for the GPRSC.\n");
         printf("  Filters out and reports bad words parsed from stdin.\n\n");
@@ -102,12 +101,15 @@ int main(int argc, char **argv) {
     }
     char *word = NULL;
     while ((word = next_word(stdin, &re)) != NULL) {
+        //read in the  words
         if (bf_probe(bloom, word) == true) {
+            //if ht contains the word and the word doesnt have a newspeak translation
             if (ht_lookup(hasht, word) != NULL && ht_lookup(hasht, word)->newspeak == NULL) {
                 bst_insert(thoughtcrime_bst, word, NULL);
                 branches += 1;
                 lookups += 2;
             }
+            //if ht contains the word and the word does have a newspeak translation
             if (ht_lookup(hasht, word) != NULL && ht_lookup(hasht, word)->newspeak != NULL) {
                 bst_insert(rightspeak_bst, word, ht_lookup(hasht, word)->newspeak);
                 branches += 1;
@@ -118,25 +120,31 @@ int main(int argc, char **argv) {
     //uint32_t bbfsize = bf_size(bloom);
     //uint32_t hhtsize = ht_size(hasht);
     if (s_flag) {
-        printf("Average BST size: %16.6lf", ht_avg_bst_size(hasht));
-        printf("Average BST height: %16.6lf", ht_avg_bst_height(hasht));
-        printf("Average branches traversed: %16.6lf", (double) (branches / lookups));
-        //printf("Hash Table load: %16.6lf", (double) (100 * (ht_count(hasht) / hhtsize)));
-        //printf("Bloom Filter load: %16.6lf", (double) (100 * (bf_count(bloom) / bbfsize)));
+        fprintf(stdout, "Average BST size: %16.6lf", ht_avg_bst_size(hasht));
+        fprintf(stdout, "Average BST height: %16.6lf", ht_avg_bst_height(hasht));
+        fprintf(stdout, "Average branches traversed: %16.6lf", (double) (branches / lookups));
+        //fprintf("Hash Table load: %16.6lf", (double) (100 * (ht_count(hasht) / hhtsize)));
+        //fprintf("Bloom Filter load: %16.6lf", (double) (100 * (bf_count(bloom) / bbfsize)));
     }
+    //mixspeak
     if (thoughtcrime_bst != NULL && rightspeak_bst != NULL) {
         printf("%s", mixspeak_message);
         bst_print(thoughtcrime_bst);
         bst_print(rightspeak_bst);
     }
+    //badspeak
     if (thoughtcrime_bst != NULL && rightspeak_bst == NULL) {
         printf("%s", badspeak_message);
         bst_print(thoughtcrime_bst);
     }
+    /*
+    //goodspeak
     if (thoughtcrime_bst == NULL && rightspeak_bst != NULL) {
         printf("%s", goodspeak_message);
         bst_print(rightspeak_bst);
     }
+    */
+    //clear and free
     bst_delete(&thoughtcrime_bst);
     bst_delete(&rightspeak_bst);
     bf_delete(&bloom);
