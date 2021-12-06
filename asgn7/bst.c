@@ -30,8 +30,8 @@ uint32_t bst_height(Node *root) {
     if (root == NULL) {
         return 0;
     } else {
-        height += bst_height(root->left);
-        height += bst_height(root->right);
+        bst_height(root->left);
+        bst_height(root->right);
         height += 1;
     }
     return height;
